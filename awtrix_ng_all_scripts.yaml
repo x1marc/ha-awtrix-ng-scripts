@@ -49,9 +49,9 @@ script:
           topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/pushed/{{topicname}}"
           payload: |-
             {
-              "text": "{{text}}",
+              "text": "{{text}}",{% if icon %}
               "icon": "{{icon}}",
-              "iconMode": "{{ iconmode }}",
+              "iconMode": "{{ iconmode }}",{% endif %}
               "durationMs": {{ (duration | int(3)) * 1000 }},
               "lifetimeMs": {{ (lifetime | int(0)) * 1000 }},
               "textCase": "{{ ['inherit','upper','asTyped'][textcase | int(0)] }}",
