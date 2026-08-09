@@ -1,0 +1,63 @@
+alias: awtrix ng - display
+sequence:
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      evaluate_payload: false
+      qos: 0
+      retain: false
+      topic: awtrix/cmd/display
+      payload: >-
+        {
+        {%- set items = [] -%}
+        {%- if power in ['on', 'off'] -%}
+          {%- set items = items + ['"power": ' ~ ((power == 'on') | tojson)] -%}
+        {%- endif -%}
+        {%- if overlay != 'keep' -%}
+          {%- set items = items + ['"overlay": ' ~ ((none if overlay == 'off' else overlay) | tojson)] -%}
+        {%- endif -%}
+        {{ items | join(', ') }}
+        }
+description: >-
+  Schaltet das AWTRIX-NG-Display ein/aus und/oder setzt das globale Overlay.
+  "beibehalten" lässt den jeweiligen Wert unverändert.
+icon: mdi:monitor
+fields:
+  power:
+    selector:
+      select:
+        options:
+          - label: "beibehalten"
+            value: keep
+          - label: "an"
+            value: "on"
+          - label: "aus"
+            value: "off"
+    name: power
+    default: keep
+    description: Display ein-/ausschalten
+  overlay:
+    selector:
+      select:
+        options:
+          - label: "beibehalten"
+            value: keep
+          - label: "aus (kein Overlay)"
+            value: "off"
+          - label: rain
+            value: rain
+          - label: snow
+            value: snow
+          - label: drizzle
+            value: drizzle
+          - label: storm
+            value: storm
+          - label: thunder
+            value: thunder
+          - label: frost
+            value: frost
+    name: overlay
+    default: keep
+    description: Wetter-Overlay
+mode: parallel
+max: 10

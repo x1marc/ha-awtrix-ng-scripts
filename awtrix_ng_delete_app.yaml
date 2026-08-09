@@ -1,0 +1,21 @@
+alias: awtrix ng - delete app
+sequence:
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      evaluate_payload: false
+      qos: 0
+      retain: false
+      topic: awtrix/cmd/apps/pushed/{{topicname}}
+      payload: ""
+description: "Löscht eine Pushed App auf AWTRIX NG (leeres Payload)."
+icon: mdi:delete
+fields:
+  topicname:
+    selector:
+      text: {}
+    name: topicname
+    required: true
+    description: Name der zu löschenden App
+mode: parallel
+max: 10

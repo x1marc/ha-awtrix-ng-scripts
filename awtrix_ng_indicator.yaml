@@ -1,0 +1,78 @@
+alias: awtrix ng - indicator
+sequence:
+  - choose:
+      # Ausschalten / zurücksetzen
+      - conditions:
+          - condition: template
+            value_template: "{{ mode == 'clear' }}"
+        sequence:
+          - action: mqtt.publish
+            data:
+              topic: "awtrix/cmd/indicators/{{ id | int(1) }}"
+              payload: "{}"
+    # Setzen: Farbe + optional Blinken/Faden
+    default:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          evaluate_payload: false
+          qos: 0
+          retain: false
+          topic: "awtrix/cmd/indicators/{{ id | int(1) }}"
+          payload: >-
+            {"color": {{ (color or [255,0,0]) | tojson }}{% if (blink | int(0)) > 0 %}, "blinkMs": {{ blink | int }}{% endif %}{% if (fade | int(0)) > 0 %}, "fadeMs": {{ fade | int }}{% endif %}}
+description: >-
+  Setzt eine der drei seitlichen Status-LEDs (Indicators) auf AWTRIX NG –
+  Farbe mit optionalem Blinken/Faden – oder schaltet sie aus.
+icon: mdi:led-on
+fields:
+  id:
+    selector:
+      number:
+        min: 1
+        max: 3
+        step: 1
+    name: id
+    default: 1
+    required: true
+    description: Indicator 1 (oben), 2 (mitte) oder 3 (unten)
+  mode:
+    selector:
+      select:
+        options:
+          - label: "setzen"
+            value: set
+          - label: "aus"
+            value: clear
+    name: mode
+    default: set
+    description: Setzen oder ausschalten
+  color:
+    selector:
+      color_rgb: {}
+    name: color
+    default:
+      - 255
+      - 0
+      - 0
+    description: Farbe der LED
+  blink:
+    selector:
+      number:
+        min: 0
+        max: 5000
+        step: 50
+    name: blink
+    default: 0
+    description: Blinkintervall in ms (0 = aus)
+  fade:
+    selector:
+      number:
+        min: 0
+        max: 5000
+        step: 50
+    name: fade
+    default: 0
+    description: Fade-Intervall in ms (0 = aus)
+mode: parallel
+max: 10

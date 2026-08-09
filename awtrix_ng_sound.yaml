@@ -1,0 +1,58 @@
+alias: awtrix ng - sound
+sequence:
+  - choose:
+      # Stoppen
+      - conditions:
+          - condition: template
+            value_template: "{{ mode == 'stop' }}"
+        sequence:
+          - action: mqtt.publish
+            data: { topic: awtrix/cmd/sounds/stop, payload: "" }
+    # Abspielen: gespeicherte Melodie (name), Inline-RTTTL (rtttl) oder Builtin
+    default:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          evaluate_payload: false
+          qos: 0
+          retain: false
+          topic: awtrix/cmd/sounds/play
+          payload: "{\"{{type}}\": \"{{value}}\"}"
+description: >-
+  Spielt einen Sound auf AWTRIX NG ab (gespeicherte Melodie, Inline-RTTTL oder
+  eingebauten Ton) oder stoppt die Wiedergabe.
+icon: mdi:music-note
+fields:
+  mode:
+    selector:
+      select:
+        options:
+          - label: "abspielen"
+            value: play
+          - label: "stoppen"
+            value: stop
+    name: mode
+    default: play
+    description: Abspielen oder Stoppen
+  type:
+    selector:
+      select:
+        options:
+          - label: "gespeicherte Melodie (name)"
+            value: name
+          - label: "Inline-RTTTL (rtttl)"
+            value: rtttl
+          - label: "eingebauter Ton (builtin)"
+            value: builtin
+    name: type
+    default: name
+    description: Quelle des Sounds (nur bei "abspielen")
+  value:
+    selector:
+      text: {}
+    name: value
+    description: >-
+      Dateiname / RTTTL-String / Builtin-Name (z. B. "beep", "r2d2" oder
+      "two:d=4,o=5,b=200:c,e")
+mode: parallel
+max: 10

@@ -1,0 +1,33 @@
+alias: awtrix ng - settings (brightness)
+sequence:
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      evaluate_payload: false
+      qos: 0
+      retain: false
+      topic: awtrix/cmd/settings
+      payload: >-
+        {"autoBrightness": {{ autobrightness | tojson }}{% if not autobrightness %}, "brightness": {{ brightness | int(120) }}{% endif %}}
+description: >-
+  Setzt Helligkeit und Auto-Helligkeit auf AWTRIX NG. Bei aktiver
+  Auto-Helligkeit wird der manuelle Wert weggelassen.
+icon: mdi:brightness-6
+fields:
+  autobrightness:
+    selector:
+      boolean: {}
+    name: autoBrightness
+    default: false
+    description: Automatische Helligkeit (Sensor) ein/aus
+  brightness:
+    selector:
+      number:
+        min: 0
+        max: 255
+        step: 1
+    name: brightness
+    default: 120
+    description: Manuelle Helligkeit 0-255 (nur wenn Auto-Helligkeit aus)
+mode: parallel
+max: 10

@@ -1,0 +1,57 @@
+alias: awtrix ng - radio
+sequence:
+  - choose:
+      # Stoppen
+      - conditions:
+          - condition: template
+            value_template: "{{ mode == 'stop' }}"
+        sequence:
+          - action: mqtt.publish
+            data: { topic: awtrix/cmd/radio/stop, payload: "" }
+    # Abspielen: nach Stationsname, Index oder URL
+    default:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          evaluate_payload: false
+          qos: 0
+          retain: false
+          topic: awtrix/cmd/radio/play
+          payload: >-
+            {% if by == 'index' %}{"index": {{ value | int(0) }}}{% else %}{"{{by}}": "{{value}}"}{% endif %}
+description: >-
+  Startet oder stoppt die Radio-Wiedergabe auf AWTRIX NG (sofern das Gerät
+  Audio-Ausgabe/Radio unterstützt).
+icon: mdi:radio
+fields:
+  mode:
+    selector:
+      select:
+        options:
+          - label: "abspielen"
+            value: play
+          - label: "stoppen"
+            value: stop
+    name: mode
+    default: play
+    description: Abspielen oder Stoppen
+  by:
+    selector:
+      select:
+        options:
+          - label: "Stationsname (station)"
+            value: station
+          - label: "Index (index)"
+            value: index
+          - label: "URL (url)"
+            value: url
+    name: by
+    default: station
+    description: Auswahlart (nur bei "abspielen")
+  value:
+    selector:
+      text: {}
+    name: value
+    description: Stationsname / Index / Stream-URL
+mode: parallel
+max: 10

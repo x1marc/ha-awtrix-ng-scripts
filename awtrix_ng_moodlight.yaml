@@ -1,0 +1,66 @@
+alias: awtrix ng - moodlight
+sequence:
+  - choose:
+      # Aus
+      - conditions:
+          - condition: template
+            value_template: "{{ mode == 'off' }}"
+        sequence:
+          - action: mqtt.publish
+            data: { topic: awtrix/cmd/display/moodlight, payload: "" }
+    # An – per Farbe oder Farbtemperatur (Kelvin)
+    default:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          evaluate_payload: false
+          qos: 0
+          retain: false
+          topic: awtrix/cmd/display/moodlight
+          payload: >-
+            {% if (kelvin | int(0)) > 0 %}{"kelvin": {{ kelvin | int }}, "brightness": {{ brightness | int(120) }}}{% else %}{"color": {{ (color or [255,255,255]) | tojson }}, "brightness": {{ brightness | int(120) }}}{% endif %}
+description: >-
+  Flutet das gesamte AWTRIX-NG-Panel mit einer Farbe (oder Farbtemperatur).
+  Modus "aus" schaltet das Moodlight ab.
+icon: mdi:television-ambient-light
+fields:
+  mode:
+    selector:
+      select:
+        options:
+          - label: "an"
+            value: "on"
+          - label: "aus"
+            value: "off"
+    name: mode
+    default: "on"
+    description: Moodlight ein-/ausschalten
+  color:
+    selector:
+      color_rgb: {}
+    name: color
+    default:
+      - 255
+      - 255
+      - 255
+    description: Farbe (wird ignoriert, wenn Kelvin > 0)
+  kelvin:
+    selector:
+      number:
+        min: 0
+        max: 6500
+        step: 100
+    name: kelvin
+    default: 0
+    description: Farbtemperatur in Kelvin (0 = Farbe verwenden)
+  brightness:
+    selector:
+      number:
+        min: 0
+        max: 255
+        step: 1
+    name: brightness
+    default: 120
+    description: Helligkeit 0-255
+mode: parallel
+max: 10

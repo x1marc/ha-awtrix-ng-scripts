@@ -1,0 +1,14 @@
+alias: awtrix ng - reboot
+sequence:
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      evaluate_payload: false
+      qos: 0
+      retain: false
+      topic: awtrix/cmd/device/reboot
+      payload: ""
+description: "Startet die AWTRIX-NG-Uhr neu."
+icon: mdi:restart
+fields: {}
+mode: single

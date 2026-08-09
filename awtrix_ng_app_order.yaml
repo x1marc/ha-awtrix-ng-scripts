@@ -1,0 +1,36 @@
+alias: awtrix ng - app order
+sequence:
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      evaluate_payload: false
+      qos: 0
+      retain: false
+      topic: awtrix/cmd/apps/order
+      payload: >-
+        {
+        {%- set o = (order | default('')).split(',') | map('trim') | reject('equalto', '') | list -%}
+        {%- set d = (disabled | default('')).split(',') | map('trim') | reject('equalto', '') | list -%}
+        {%- set items = [] -%}
+        {%- if o | length > 0 -%}{%- set items = items + ['"order": ' ~ (o | tojson)] -%}{%- endif -%}
+        {%- if d | length > 0 -%}{%- set items = items + ['"disabled": ' ~ (d | tojson)] -%}{%- endif -%}
+        {{ items | join(', ') }}
+        }
+description: >-
+  Legt Reihenfolge und deaktivierte Apps auf AWTRIX NG fest (kommagetrennte
+  App-Namen). ACHTUNG: Nur gelistete Apps in "order" bleiben in dieser
+  Reihenfolge sichtbar – prüfe die Namen genau (GET /api/v1/apps).
+icon: mdi:sort
+fields:
+  order:
+    selector:
+      text: {}
+    name: order
+    description: 'Reihenfolge, kommagetrennt (z. B. "Time, weather, Battery")'
+  disabled:
+    selector:
+      text: {}
+    name: disabled
+    description: 'Zu deaktivierende Apps, kommagetrennt (optional)'
+mode: parallel
+max: 10

@@ -1,0 +1,107 @@
+alias: awtrix ng - notify
+sequence:
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      evaluate_payload: false
+      qos: 0
+      retain: false
+      topic: awtrix/cmd/notify
+      payload: |-
+        {
+          "text": "{{text}}",
+          "durationMs": {{ (duration | int(7)) * 1000 }},
+          "stack": {{ stack | tojson }},
+          "hold": {{ hold | tojson }},
+          "wakeup": {{ wakeup | tojson }},
+          "textCenter": {{ center | tojson }}{% if icon %},
+          "icon": "{{icon}}"{% endif %}{% if blink %},
+          "textBlinkMs": 500{% endif %}{% if effect %},
+          "effect": "{{effect}}"{% endif %}{% if sound %},
+          "sound": "{{sound}}"{% endif %}{% if rainbow %},
+          "palette": "Rainbow",
+          "textColor": "palette"{% else %},
+          "textColor": {{ (textcolor or [255,255,255]) | tojson }}{% endif %}
+        }
+description: "Sendet eine Notification an AWTRIX NG (überlagert die laufenden Apps)."
+icon: mdi:bell-ring
+fields:
+  text:
+    selector:
+      text: {}
+    name: text
+    required: true
+    description: Anzuzeigender Text
+  icon:
+    selector:
+      text: {}
+    name: icon
+    description: Icon-ID (optional)
+  duration:
+    selector:
+      number:
+        min: 1
+        max: 180
+        step: 1
+    name: duration
+    default: 7
+    description: Anzeigedauer in Sekunden (bei hold=true ignoriert)
+  hold:
+    selector:
+      boolean: {}
+    name: hold
+    default: false
+    description: Bis zum manuellen Verwerfen halten
+  stack:
+    selector:
+      boolean: {}
+    name: stack
+    default: true
+    description: In Warteschlange stapeln (true) oder aktuelle ersetzen (false)
+  wakeup:
+    selector:
+      boolean: {}
+    name: wakeup
+    default: false
+    description: Display bei Bedarf einschalten
+  center:
+    selector:
+      boolean: {}
+    name: center
+    default: false
+    description: Text zentrieren (wenn er passt)
+  blink:
+    selector:
+      boolean: {}
+    name: blink
+    default: false
+    description: Text blinken lassen
+  rainbow:
+    selector:
+      boolean: {}
+    name: rainbow
+    default: false
+    description: Regenbogen-Text (via Palette "Rainbow")
+  textcolor:
+    selector:
+      color_rgb: {}
+    name: textcolor
+    default:
+      - 255
+      - 255
+      - 255
+    description: Textfarbe (bei rainbow ignoriert)
+  effect:
+    selector:
+      text: {}
+    name: effect
+    description: >-
+      Hintergrundeffekt-Name (leer = keiner). Gültige Namen siehe Geräte-
+      Capabilities, z. B. PlasmaCloud, Radar, Matrix.
+  sound:
+    selector:
+      text: {}
+    name: sound
+    description: Melodie-Dateiname (optional), muss auf dem Gerät liegen
+mode: parallel
+max: 10

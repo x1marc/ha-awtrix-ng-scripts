@@ -1,0 +1,22 @@
+alias: awtrix ng - dismiss notification
+sequence:
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      evaluate_payload: false
+      qos: 0
+      retain: false
+      topic: "awtrix/cmd/notify/dismiss{% if name %}/{{name}}{% endif %}"
+      payload: ""
+description: >-
+  Verwirft die aktuelle Notification – oder, wenn ein Name angegeben ist, eine
+  benannte Notification (AWTRIX NG).
+icon: mdi:bell-off
+fields:
+  name:
+    selector:
+      text: {}
+    name: name
+    description: Name der Notification (leer = aktuelle verwerfen)
+mode: parallel
+max: 10

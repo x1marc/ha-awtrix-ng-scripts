@@ -1,0 +1,46 @@
+alias: awtrix ng - switch app
+sequence:
+  - choose:
+      # Nächste App
+      - conditions:
+          - condition: template
+            value_template: "{{ target | lower == 'next' }}"
+        sequence:
+          - action: mqtt.publish
+            data: { topic: awtrix/cmd/apps/next, payload: "" }
+      # Vorherige App
+      - conditions:
+          - condition: template
+            value_template: "{{ target | lower in ['previous', 'prev'] }}"
+        sequence:
+          - action: mqtt.publish
+            data: { topic: awtrix/cmd/apps/previous, payload: "" }
+    # Zu benannter App springen
+    default:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          evaluate_payload: false
+          qos: 0
+          retain: false
+          topic: awtrix/cmd/apps/switch
+          payload: "{\"name\": \"{{target}}\", \"fast\": {{ fast | tojson }}}"
+description: >-
+  Springt zu einer App auf AWTRIX NG. "next"/"previous" blättern weiter, jeder
+  andere Wert wird als App-Name interpretiert.
+icon: mdi:arrow-right-bold-box
+fields:
+  target:
+    selector:
+      text: {}
+    name: target
+    required: true
+    description: 'App-Name, oder "next" / "previous"'
+  fast:
+    selector:
+      boolean: {}
+    name: fast
+    default: true
+    description: Sofort umschalten (true) statt mit Übergangsanimation
+mode: parallel
+max: 10
