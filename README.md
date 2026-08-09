@@ -35,7 +35,8 @@ wiederverwendbares HA-Skript mit Eingabefeldern.
 ### Alle Skripte auf einmal (empfohlen)
 
 Die Datei [`awtrix_ng_all_scripts.yaml`](awtrix_ng_all_scripts.yaml) enthält
-**alle** Skripte als Home-Assistant-**Package**:
+alle **MQTT-Skripte** als Home-Assistant-**Package** (ohne `firmware update` –
+das braucht extra einen `shell_command`, siehe unten):
 
 1. Datei nach `config/packages/awtrix_ng.yaml` kopieren (z. B. via File-Editor
    oder Studio Code Server).
