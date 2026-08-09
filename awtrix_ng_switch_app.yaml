@@ -1,5 +1,9 @@
 alias: awtrix ng - switch app
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
+      target: "{{ target | default('') }}"
+      fast: "{{ fast | default(true) }}"
   - choose:
       # Nächste App
       - conditions:

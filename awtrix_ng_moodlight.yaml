@@ -1,5 +1,11 @@
 alias: awtrix ng - moodlight
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
+      mode: "{{ mode | default('on') }}"
+      color: "{{ color | default([255, 255, 255]) }}"
+      kelvin: "{{ kelvin | default(0) }}"
+      brightness: "{{ brightness | default(120) }}"
   - choose:
       # Aus
       - conditions:

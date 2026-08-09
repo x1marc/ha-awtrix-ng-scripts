@@ -1,5 +1,7 @@
 alias: awtrix ng - reboot
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
   - action: mqtt.publish
     metadata: {}
     data:

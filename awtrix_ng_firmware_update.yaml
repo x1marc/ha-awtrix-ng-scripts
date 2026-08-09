@@ -1,5 +1,8 @@
 alias: awtrix ng - firmware update (HTTP/curl)
 sequence:
+  - variables:
+      ip: "{{ ip | default('') }}"
+      file: "{{ file | default('') }}"
   # Firmware-Update ist bei NG KEIN MQTT-Befehl -> HTTP-Upload via shell_command.
   # Voraussetzung: shell_command 'awtrix_ng_firmware_update' in configuration.yaml
   # (siehe README) und die .bin liegt auf dem HA-Host.

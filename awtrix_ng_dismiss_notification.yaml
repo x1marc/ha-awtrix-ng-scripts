@@ -1,5 +1,8 @@
 alias: awtrix ng - dismiss notification
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
+      name: "{{ name | default('') }}"
   - action: mqtt.publish
     metadata: {}
     data:

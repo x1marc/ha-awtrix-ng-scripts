@@ -22,6 +22,18 @@ script:
   awtrix_ng_new_app:
     alias: awtrix ng - new app
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
+          topicname: "{{ topicname | default('') }}"
+          text: "{{ text | default('') }}"
+          icon: "{{ icon | default('') }}"
+          rainbow: "{{ rainbow | default(false) }}"
+          lifetime: "{{ lifetime | default(0) }}"
+          duration: "{{ duration | default(3) }}"
+          textcase: "{{ textcase | default(0) }}"
+          showimmediately: "{{ showimmediately | default('') }}"
+          textcolor: "{{ textcolor | default([255, 255, 255]) }}"
+          progress: "{{ progress | default(0) }}"
       - action: mqtt.publish
         metadata: {}
         data:
@@ -149,6 +161,9 @@ script:
   awtrix_ng_delete_app:
     alias: awtrix ng - delete app
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
+          topicname: "{{ topicname | default('') }}"
       - action: mqtt.publish
         metadata: {}
         data:
@@ -178,6 +193,20 @@ script:
   awtrix_ng_notify:
     alias: awtrix ng - notify
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
+          text: "{{ text | default('') }}"
+          icon: "{{ icon | default('') }}"
+          duration: "{{ duration | default(7) }}"
+          hold: "{{ hold | default(false) }}"
+          stack: "{{ stack | default(true) }}"
+          wakeup: "{{ wakeup | default(false) }}"
+          center: "{{ center | default(false) }}"
+          blink: "{{ blink | default(false) }}"
+          rainbow: "{{ rainbow | default(false) }}"
+          textcolor: "{{ textcolor | default([255, 255, 255]) }}"
+          effect: "{{ effect | default('') }}"
+          sound: "{{ sound | default('') }}"
       - action: mqtt.publish
         metadata: {}
         data:
@@ -293,6 +322,9 @@ script:
   awtrix_ng_dismiss_notification:
     alias: awtrix ng - dismiss notification
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
+          name: "{{ name | default('') }}"
       - action: mqtt.publish
         metadata: {}
         data:
@@ -323,6 +355,10 @@ script:
   awtrix_ng_switch_app:
     alias: awtrix ng - switch app
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
+          target: "{{ target | default('') }}"
+          fast: "{{ fast | default(true) }}"
       - choose:
           # Nächste App
           - conditions:
@@ -377,6 +413,10 @@ script:
   awtrix_ng_app_order:
     alias: awtrix ng - app order
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
+          order: "{{ order | default('') }}"
+          disabled: "{{ disabled | default('') }}"
       - action: mqtt.publish
         metadata: {}
         data:
@@ -421,6 +461,10 @@ script:
   awtrix_ng_display:
     alias: awtrix ng - display
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
+          power: "{{ power | default('keep') }}"
+          overlay: "{{ overlay | default('keep') }}"
       - action: mqtt.publish
         metadata: {}
         data:
@@ -492,6 +536,12 @@ script:
   awtrix_ng_moodlight:
     alias: awtrix ng - moodlight
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
+          mode: "{{ mode | default('on') }}"
+          color: "{{ color | default([255, 255, 255]) }}"
+          kelvin: "{{ kelvin | default(0) }}"
+          brightness: "{{ brightness | default(120) }}"
       - choose:
           # Aus
           - conditions:
@@ -566,6 +616,13 @@ script:
   awtrix_ng_indicator:
     alias: awtrix ng - indicator
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
+          id: "{{ id | default(1) }}"
+          mode: "{{ mode | default('set') }}"
+          color: "{{ color | default([255, 0, 0]) }}"
+          blink: "{{ blink | default(0) }}"
+          fade: "{{ fade | default(0) }}"
       - choose:
           # Ausschalten / zurücksetzen
           - conditions:
@@ -652,6 +709,11 @@ script:
   awtrix_ng_sound:
     alias: awtrix ng - sound
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
+          mode: "{{ mode | default('play') }}"
+          type: "{{ type | default('name') }}"
+          value: "{{ value | default('') }}"
       - choose:
           # Stoppen
           - conditions:
@@ -718,6 +780,11 @@ script:
   awtrix_ng_radio:
     alias: awtrix ng - radio
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
+          mode: "{{ mode | default('play') }}"
+          by: "{{ by | default('station') }}"
+          value: "{{ value | default('') }}"
       - choose:
           # Stoppen
           - conditions:
@@ -783,6 +850,10 @@ script:
   awtrix_ng_settings:
     alias: awtrix ng - settings (brightness)
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
+          autobrightness: "{{ autobrightness | default(false) }}"
+          brightness: "{{ brightness | default(120) }}"
       - action: mqtt.publish
         metadata: {}
         data:
@@ -824,6 +895,8 @@ script:
   awtrix_ng_reboot:
     alias: awtrix ng - reboot
     sequence:
+      - variables:
+          prefix: "{{ prefix | default('awtrix') }}"
       - action: mqtt.publish
         metadata: {}
         data:

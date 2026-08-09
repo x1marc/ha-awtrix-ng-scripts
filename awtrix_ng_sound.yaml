@@ -1,5 +1,10 @@
 alias: awtrix ng - sound
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
+      mode: "{{ mode | default('play') }}"
+      type: "{{ type | default('name') }}"
+      value: "{{ value | default('') }}"
   - choose:
       # Stoppen
       - conditions:

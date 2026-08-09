@@ -1,5 +1,9 @@
 alias: awtrix ng - settings (brightness)
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
+      autobrightness: "{{ autobrightness | default(false) }}"
+      brightness: "{{ brightness | default(120) }}"
   - action: mqtt.publish
     metadata: {}
     data:

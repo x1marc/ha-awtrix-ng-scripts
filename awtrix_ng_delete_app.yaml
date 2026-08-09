@@ -1,5 +1,8 @@
 alias: awtrix ng - delete app
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
+      topicname: "{{ topicname | default('') }}"
   - action: mqtt.publish
     metadata: {}
     data:

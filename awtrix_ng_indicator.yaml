@@ -1,5 +1,12 @@
 alias: awtrix ng - indicator
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
+      id: "{{ id | default(1) }}"
+      mode: "{{ mode | default('set') }}"
+      color: "{{ color | default([255, 0, 0]) }}"
+      blink: "{{ blink | default(0) }}"
+      fade: "{{ fade | default(0) }}"
   - choose:
       # Ausschalten / zurücksetzen
       - conditions:

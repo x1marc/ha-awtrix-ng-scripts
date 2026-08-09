@@ -1,5 +1,9 @@
 alias: awtrix ng - display
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
+      power: "{{ power | default('keep') }}"
+      overlay: "{{ overlay | default('keep') }}"
   - action: mqtt.publish
     metadata: {}
     data:

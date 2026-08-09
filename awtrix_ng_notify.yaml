@@ -1,5 +1,19 @@
 alias: awtrix ng - notify
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
+      text: "{{ text | default('') }}"
+      icon: "{{ icon | default('') }}"
+      duration: "{{ duration | default(7) }}"
+      hold: "{{ hold | default(false) }}"
+      stack: "{{ stack | default(true) }}"
+      wakeup: "{{ wakeup | default(false) }}"
+      center: "{{ center | default(false) }}"
+      blink: "{{ blink | default(false) }}"
+      rainbow: "{{ rainbow | default(false) }}"
+      textcolor: "{{ textcolor | default([255, 255, 255]) }}"
+      effect: "{{ effect | default('') }}"
+      sound: "{{ sound | default('') }}"
   - action: mqtt.publish
     metadata: {}
     data:

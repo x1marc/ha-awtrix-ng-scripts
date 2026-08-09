@@ -1,5 +1,17 @@
 alias: awtrix ng - new app
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
+      topicname: "{{ topicname | default('') }}"
+      text: "{{ text | default('') }}"
+      icon: "{{ icon | default('') }}"
+      rainbow: "{{ rainbow | default(false) }}"
+      lifetime: "{{ lifetime | default(0) }}"
+      duration: "{{ duration | default(3) }}"
+      textcase: "{{ textcase | default(0) }}"
+      showimmediately: "{{ showimmediately | default('') }}"
+      textcolor: "{{ textcolor | default([255, 255, 255]) }}"
+      progress: "{{ progress | default(0) }}"
   - action: mqtt.publish
     metadata: {}
     data:

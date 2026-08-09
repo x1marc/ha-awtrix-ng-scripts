@@ -1,5 +1,9 @@
 alias: awtrix ng - app order
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
+      order: "{{ order | default('') }}"
+      disabled: "{{ disabled | default('') }}"
   - action: mqtt.publish
     metadata: {}
     data:

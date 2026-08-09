@@ -1,5 +1,10 @@
 alias: awtrix ng - radio
 sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrix') }}"
+      mode: "{{ mode | default('play') }}"
+      by: "{{ by | default('station') }}"
+      value: "{{ value | default('') }}"
   - choose:
       # Stoppen
       - conditions:
