@@ -1,0 +1,119 @@
+alias: awtrix ng - new app
+sequence:
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      evaluate_payload: false
+      qos: 0
+      retain: false
+      topic: awtrix/cmd/apps/pushed/{{topicname}}
+      payload: |-
+        {
+          "text": "{{text}}",
+          "icon": "{{icon}}",
+          "durationMs": {{ (duration | int(3)) * 1000 }},
+          "lifetimeMs": {{ (lifetime | int(0)) * 1000 }},
+          "textCase": "{{ ['inherit','upper','asTyped'][textcase | int(0)] }}",
+          "scroll": {"speed": 80}{% if rainbow %},
+          "palette": "Rainbow",
+          "textColor": "palette",
+          "paletteSpeed": 1{% else %},
+          "textColor": {{ (textcolor or [255,255,255]) | tojson }}{% endif %}{% if (progress | int(0)) > 0 %},
+          "progress": {{ progress | int }}{% endif %}
+        }
+  - if:
+      - condition: template
+        value_template: "{{ showimmediately == true or showimmediately == True}}"
+    then:
+      - action: mqtt.publish
+        metadata: {}
+        data:
+          evaluate_payload: false
+          qos: 0
+          retain: false
+          topic: awtrix/cmd/apps/switch
+          payload: "{\"name\": \"{{topicname}}\", \"fast\": true}"
+description: "Erstellt/aktualisiert eine Pushed App auf AWTRIX NG (blueforcer/awtrix-ng)."
+icon: mdi:led-strip
+fields:
+  topicname:
+    selector:
+      text: null
+    name: topicname
+    required: true
+    description: Name der App (ein Topic pro App). Nur A-Z a-z 0-9 _ - (max. 32)
+  text:
+    selector:
+      text: null
+    name: text
+    required: true
+    description: Anzuzeigender Text
+  icon:
+    selector:
+      text: {}
+    name: icon
+    required: true
+    description: Icon-ID, muss auf dem AWTRIX-Dateisystem vorhanden sein
+  rainbow:
+    selector:
+      boolean: {}
+    name: rainbow
+    default: false
+    required: true
+    description: Regenbogen-Text (NG - via Palette "Rainbow") ja/nein
+  lifetime:
+    selector:
+      number:
+        min: 0
+        max: 86400
+        step: 1
+    name: lifetime
+    default: 0
+    description: App nach X Sekunden verwerfen - 0 = nie
+  duration:
+    selector:
+      number:
+        min: 1
+        max: 180
+        step: 1
+    name: duration
+    default: 3
+    description: Anzeigedauer in Sekunden - Standard 3
+  textcase:
+    selector:
+      number:
+        min: 0
+        max: 2
+        step: 1
+    name: textCase
+    default: 0
+    description: >-
+      0 = global (inherit), 1 = Großbuchstaben (upper), 2 = wie gesendet
+      (asTyped) - Standard 0
+  showimmediately:
+    selector:
+      boolean: {}
+    name: showImmediately
+    required: false
+    description: Sofort anzeigen (springt in der App-Reihenfolge vor) - Standard false
+  textcolor:
+    selector:
+      color_rgb: {}
+    name: textcolor
+    default:
+      - 255
+      - 255
+      - 255
+    required: false
+    description: Textfarbe (wird bei rainbow ignoriert)
+  progress:
+    selector:
+      number:
+        min: 0
+        max: 99
+        step: 1
+    name: progress
+    description: Fortschrittsbalken 0-99 (0 = kein Balken)
+    default: 0
+mode: parallel
+max: 10
