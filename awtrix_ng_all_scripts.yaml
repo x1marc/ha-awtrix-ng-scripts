@@ -27,6 +27,7 @@ script:
           topicname: "{{ topicname | default('') }}"
           text: "{{ text | default('') }}"
           icon: "{{ icon | default('') }}"
+          iconmode: "{{ iconmode | default('fixed') }}"
           rainbow: "{{ rainbow | default(false) }}"
           lifetime: "{{ lifetime | default(0) }}"
           duration: "{{ duration | default(3) }}"
@@ -45,6 +46,7 @@ script:
             {
               "text": "{{text}}",
               "icon": "{{icon}}",
+              "iconMode": "{{ iconmode }}",
               "durationMs": {{ (duration | int(3)) * 1000 }},
               "lifetimeMs": {{ (lifetime | int(0)) * 1000 }},
               "textCase": "{{ ['inherit','upper','asTyped'][textcase | int(0)] }}",
@@ -94,6 +96,19 @@ script:
         name: icon
         required: true
         description: Icon-ID, muss auf dem AWTRIX-Dateisystem vorhanden sein
+      iconmode:
+        selector:
+          select:
+            options:
+              - label: "fest (bleibt stehen)"
+                value: fixed
+              - label: "einmal wegschieben"
+                value: pushOnce
+              - label: "mitscrollen (wiederholt)"
+                value: push
+        name: iconMode
+        default: fixed
+        description: Icon-Verhalten beim Scrollen (fixed / pushOnce / push)
       rainbow:
         selector:
           boolean:
@@ -207,6 +222,7 @@ script:
           textcolor: "{{ textcolor | default([255, 255, 255]) }}"
           effect: "{{ effect | default('') }}"
           sound: "{{ sound | default('') }}"
+          iconmode: "{{ iconmode | default('fixed') }}"
       - action: mqtt.publish
         metadata: {}
         data:
@@ -222,7 +238,7 @@ script:
               "hold": {{ hold | tojson }},
               "wakeup": {{ wakeup | tojson }},
               "textCenter": {{ center | tojson }}{% if icon %},
-              "icon": "{{icon}}"{% endif %}{% if blink %},
+              "icon": "{{icon}}","iconMode":"{{iconmode}}"{% endif %}{% if blink %},
               "textBlinkMs": 500{% endif %}{% if effect %},
               "effect": "{{effect}}"{% endif %}{% if sound %},
               "sound": "{{sound}}"{% endif %}{% if rainbow %},
@@ -250,6 +266,19 @@ script:
           text:
         name: icon
         description: Icon-ID (optional)
+      iconmode:
+        selector:
+          select:
+            options:
+              - label: "fest (bleibt stehen)"
+                value: fixed
+              - label: "einmal wegschieben"
+                value: pushOnce
+              - label: "mitscrollen (wiederholt)"
+                value: push
+        name: iconMode
+        default: fixed
+        description: Icon-Verhalten beim Scrollen (fixed / pushOnce / push)
       duration:
         selector:
           number:

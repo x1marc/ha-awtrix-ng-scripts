@@ -14,6 +14,7 @@ sequence:
       textcolor: "{{ textcolor | default([255, 255, 255]) }}"
       effect: "{{ effect | default('') }}"
       sound: "{{ sound | default('') }}"
+      iconmode: "{{ iconmode | default('fixed') }}"
   - action: mqtt.publish
     metadata: {}
     data:
@@ -29,7 +30,7 @@ sequence:
           "hold": {{ hold | tojson }},
           "wakeup": {{ wakeup | tojson }},
           "textCenter": {{ center | tojson }}{% if icon %},
-          "icon": "{{icon}}"{% endif %}{% if blink %},
+          "icon": "{{icon}}","iconMode":"{{iconmode}}"{% endif %}{% if blink %},
           "textBlinkMs": 500{% endif %}{% if effect %},
           "effect": "{{effect}}"{% endif %}{% if sound %},
           "sound": "{{sound}}"{% endif %}{% if rainbow %},
@@ -57,6 +58,19 @@ fields:
       text:
     name: icon
     description: Icon-ID (optional)
+  iconmode:
+    selector:
+      select:
+        options:
+          - label: "fest (bleibt stehen)"
+            value: fixed
+          - label: "einmal wegschieben"
+            value: pushOnce
+          - label: "mitscrollen (wiederholt)"
+            value: push
+    name: iconMode
+    default: fixed
+    description: Icon-Verhalten beim Scrollen (fixed / pushOnce / push)
   duration:
     selector:
       number:

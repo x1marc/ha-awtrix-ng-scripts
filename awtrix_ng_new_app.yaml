@@ -5,6 +5,7 @@ sequence:
       topicname: "{{ topicname | default('') }}"
       text: "{{ text | default('') }}"
       icon: "{{ icon | default('') }}"
+      iconmode: "{{ iconmode | default('fixed') }}"
       rainbow: "{{ rainbow | default(false) }}"
       lifetime: "{{ lifetime | default(0) }}"
       duration: "{{ duration | default(3) }}"
@@ -23,6 +24,7 @@ sequence:
         {
           "text": "{{text}}",
           "icon": "{{icon}}",
+          "iconMode": "{{ iconmode }}",
           "durationMs": {{ (duration | int(3)) * 1000 }},
           "lifetimeMs": {{ (lifetime | int(0)) * 1000 }},
           "textCase": "{{ ['inherit','upper','asTyped'][textcase | int(0)] }}",
@@ -72,6 +74,19 @@ fields:
     name: icon
     required: true
     description: Icon-ID, muss auf dem AWTRIX-Dateisystem vorhanden sein
+  iconmode:
+    selector:
+      select:
+        options:
+          - label: "fest (bleibt stehen)"
+            value: fixed
+          - label: "einmal wegschieben"
+            value: pushOnce
+          - label: "mitscrollen (wiederholt)"
+            value: push
+    name: iconMode
+    default: fixed
+    description: Icon-Verhalten beim Scrollen (fixed / pushOnce / push)
   rainbow:
     selector:
       boolean:
