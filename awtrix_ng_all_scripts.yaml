@@ -15,7 +15,7 @@
 # shell_command in configuration.yaml). Bei Bedarf einzeln aus dem Repo:
 # awtrix_ng_firmware_update.yaml (siehe README).
 #
-# Prefix-Feld bei dir auf 'awtrixng' setzen.
+# Prefix-Feld ist bereits auf 'awtrixng' voreingestellt.
 
 script:
 
@@ -23,7 +23,7 @@ script:
     alias: awtrix ng - new app
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
           topicname: "{{ topicname | default('') }}"
           text: "{{ text | default('') }}"
           icon: "{{ icon | default('') }}"
@@ -40,7 +40,7 @@ script:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/pushed/{{topicname}}"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/pushed/{{topicname}}"
           payload: |-
             {
               "text": "{{text}}",
@@ -65,7 +65,7 @@ script:
               evaluate_payload: false
               qos: 0
               retain: false
-              topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/switch"
+              topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/switch"
               payload: "{\"name\": \"{{topicname}}\", \"fast\": true}"
     description: "Erstellt/aktualisiert eine Pushed App auf AWTRIX NG (blueforcer/awtrix-ng)."
     icon: mdi:led-strip
@@ -74,7 +74,7 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       topicname:
         selector:
@@ -162,7 +162,7 @@ script:
     alias: awtrix ng - delete app
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
           topicname: "{{ topicname | default('') }}"
       - action: mqtt.publish
         metadata: {}
@@ -170,7 +170,7 @@ script:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/pushed/{{topicname}}"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/pushed/{{topicname}}"
           payload: ""
     description: "Löscht eine Pushed App auf AWTRIX NG (leeres Payload)."
     icon: mdi:delete
@@ -179,7 +179,7 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       topicname:
         selector:
@@ -194,7 +194,7 @@ script:
     alias: awtrix ng - notify
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
           text: "{{ text | default('') }}"
           icon: "{{ icon | default('') }}"
           duration: "{{ duration | default(7) }}"
@@ -213,7 +213,7 @@ script:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/notify"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/notify"
           payload: |-
             {
               "text": "{{text}}",
@@ -237,7 +237,7 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       text:
         selector:
@@ -323,7 +323,7 @@ script:
     alias: awtrix ng - dismiss notification
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
           name: "{{ name | default('') }}"
       - action: mqtt.publish
         metadata: {}
@@ -331,7 +331,7 @@ script:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/notify/dismiss{% if name %}/{{name}}{% endif %}"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/notify/dismiss{% if name %}/{{name}}{% endif %}"
           payload: ""
     description: >-
       Verwirft die aktuelle Notification – oder, wenn ein Name angegeben ist, eine
@@ -342,7 +342,7 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       name:
         selector:
@@ -356,7 +356,7 @@ script:
     alias: awtrix ng - switch app
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
           target: "{{ target | default('') }}"
           fast: "{{ fast | default(true) }}"
       - choose:
@@ -366,14 +366,14 @@ script:
                 value_template: "{{ target | lower == 'next' }}"
             sequence:
               - action: mqtt.publish
-                data: { topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/next", payload: "" }
+                data: { topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/next", payload: "" }
           # Vorherige App
           - conditions:
               - condition: template
                 value_template: "{{ target | lower in ['previous', 'prev'] }}"
             sequence:
               - action: mqtt.publish
-                data: { topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/previous", payload: "" }
+                data: { topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/previous", payload: "" }
         # Zu benannter App springen
         default:
           - action: mqtt.publish
@@ -382,7 +382,7 @@ script:
               evaluate_payload: false
               qos: 0
               retain: false
-              topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/switch"
+              topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/switch"
               payload: "{\"name\": \"{{target}}\", \"fast\": {{ fast | tojson }}}"
     description: >-
       Springt zu einer App auf AWTRIX NG. "next"/"previous" blättern weiter, jeder
@@ -393,7 +393,7 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       target:
         selector:
@@ -414,7 +414,7 @@ script:
     alias: awtrix ng - app order
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
           order: "{{ order | default('') }}"
           disabled: "{{ disabled | default('') }}"
       - action: mqtt.publish
@@ -423,7 +423,7 @@ script:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/order"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/order"
           payload: >-
             {
             {%- set o = (order | default('')).split(',') | map('trim') | reject('equalto', '') | list -%}
@@ -443,7 +443,7 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       order:
         selector:
@@ -462,7 +462,7 @@ script:
     alias: awtrix ng - display
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
           power: "{{ power | default('keep') }}"
           overlay: "{{ overlay | default('keep') }}"
       - action: mqtt.publish
@@ -471,7 +471,7 @@ script:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/display"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/display"
           payload: >-
             {
             {%- set items = [] -%}
@@ -492,7 +492,7 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       power:
         selector:
@@ -537,7 +537,7 @@ script:
     alias: awtrix ng - moodlight
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
           mode: "{{ mode | default('on') }}"
           color: "{{ color | default([255, 255, 255]) }}"
           kelvin: "{{ kelvin | default(0) }}"
@@ -549,7 +549,7 @@ script:
                 value_template: "{{ mode == 'off' }}"
             sequence:
               - action: mqtt.publish
-                data: { topic: "{{ prefix | default('awtrix', true) }}/cmd/display/moodlight", payload: "" }
+                data: { topic: "{{ prefix | default('awtrixng', true) }}/cmd/display/moodlight", payload: "" }
         # An – per Farbe oder Farbtemperatur (Kelvin)
         default:
           - action: mqtt.publish
@@ -558,7 +558,7 @@ script:
               evaluate_payload: false
               qos: 0
               retain: false
-              topic: "{{ prefix | default('awtrix', true) }}/cmd/display/moodlight"
+              topic: "{{ prefix | default('awtrixng', true) }}/cmd/display/moodlight"
               payload: >-
                 {% if (kelvin | int(0)) > 0 %}{"kelvin": {{ kelvin | int }}, "brightness": {{ brightness | int(120) }}}{% else %}{"color": {{ (color or [255,255,255]) | tojson }}, "brightness": {{ brightness | int(120) }}}{% endif %}
     description: >-
@@ -570,7 +570,7 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       mode:
         selector:
@@ -617,7 +617,7 @@ script:
     alias: awtrix ng - indicator
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
           id: "{{ id | default(1) }}"
           mode: "{{ mode | default('set') }}"
           color: "{{ color | default([255, 0, 0]) }}"
@@ -631,7 +631,7 @@ script:
             sequence:
               - action: mqtt.publish
                 data:
-                  topic: "{{ prefix | default('awtrix', true) }}/cmd/indicators/{{ id | int(1) }}"
+                  topic: "{{ prefix | default('awtrixng', true) }}/cmd/indicators/{{ id | int(1) }}"
                   payload: "{}"
         # Setzen: Farbe + optional Blinken/Faden
         default:
@@ -641,7 +641,7 @@ script:
               evaluate_payload: false
               qos: 0
               retain: false
-              topic: "{{ prefix | default('awtrix', true) }}/cmd/indicators/{{ id | int(1) }}"
+              topic: "{{ prefix | default('awtrixng', true) }}/cmd/indicators/{{ id | int(1) }}"
               payload: >-
                 {"color": {{ (color or [255,0,0]) | tojson }}{% if (blink | int(0)) > 0 %}, "blinkMs": {{ blink | int }}{% endif %}{% if (fade | int(0)) > 0 %}, "fadeMs": {{ fade | int }}{% endif %}}
     description: >-
@@ -653,7 +653,7 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       id:
         selector:
@@ -710,7 +710,7 @@ script:
     alias: awtrix ng - sound
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
           mode: "{{ mode | default('play') }}"
           type: "{{ type | default('name') }}"
           value: "{{ value | default('') }}"
@@ -721,7 +721,7 @@ script:
                 value_template: "{{ mode == 'stop' }}"
             sequence:
               - action: mqtt.publish
-                data: { topic: "{{ prefix | default('awtrix', true) }}/cmd/sounds/stop", payload: "" }
+                data: { topic: "{{ prefix | default('awtrixng', true) }}/cmd/sounds/stop", payload: "" }
         # Abspielen: gespeicherte Melodie (name), Inline-RTTTL (rtttl) oder Builtin
         default:
           - action: mqtt.publish
@@ -730,7 +730,7 @@ script:
               evaluate_payload: false
               qos: 0
               retain: false
-              topic: "{{ prefix | default('awtrix', true) }}/cmd/sounds/play"
+              topic: "{{ prefix | default('awtrixng', true) }}/cmd/sounds/play"
               payload: "{\"{{type}}\": \"{{value}}\"}"
     description: >-
       Spielt einen Sound auf AWTRIX NG ab (gespeicherte Melodie, Inline-RTTTL oder
@@ -741,7 +741,7 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       mode:
         selector:
@@ -781,7 +781,7 @@ script:
     alias: awtrix ng - radio
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
           mode: "{{ mode | default('play') }}"
           by: "{{ by | default('station') }}"
           value: "{{ value | default('') }}"
@@ -792,7 +792,7 @@ script:
                 value_template: "{{ mode == 'stop' }}"
             sequence:
               - action: mqtt.publish
-                data: { topic: "{{ prefix | default('awtrix', true) }}/cmd/radio/stop", payload: "" }
+                data: { topic: "{{ prefix | default('awtrixng', true) }}/cmd/radio/stop", payload: "" }
         # Abspielen: nach Stationsname, Index oder URL
         default:
           - action: mqtt.publish
@@ -801,7 +801,7 @@ script:
               evaluate_payload: false
               qos: 0
               retain: false
-              topic: "{{ prefix | default('awtrix', true) }}/cmd/radio/play"
+              topic: "{{ prefix | default('awtrixng', true) }}/cmd/radio/play"
               payload: >-
                 {% if by == 'index' %}{"index": {{ value | int(0) }}}{% else %}{"{{by}}": "{{value}}"}{% endif %}
     description: >-
@@ -813,7 +813,7 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       mode:
         selector:
@@ -851,7 +851,7 @@ script:
     alias: awtrix ng - settings (brightness)
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
           autobrightness: "{{ autobrightness | default(false) }}"
           brightness: "{{ brightness | default(120) }}"
       - action: mqtt.publish
@@ -860,7 +860,7 @@ script:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/settings"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/settings"
           payload: >-
             {"autoBrightness": {{ autobrightness | tojson }}{% if not autobrightness %}, "brightness": {{ brightness | int(120) }}{% endif %}}
     description: >-
@@ -872,7 +872,7 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       autobrightness:
         selector:
@@ -896,14 +896,14 @@ script:
     alias: awtrix ng - reboot
     sequence:
       - variables:
-          prefix: "{{ prefix | default('awtrix') }}"
+          prefix: "{{ prefix | default('awtrixng') }}"
       - action: mqtt.publish
         metadata: {}
         data:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/device/reboot"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/device/reboot"
           payload: ""
     description: "Startet die AWTRIX-NG-Uhr neu."
     icon: mdi:restart
@@ -912,6 +912,6 @@ script:
         selector:
           text:
         name: prefix
-        default: "awtrix"
+        default: "awtrixng"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
     mode: single

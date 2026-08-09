@@ -1,7 +1,7 @@
 alias: awtrix ng - switch app
 sequence:
   - variables:
-      prefix: "{{ prefix | default('awtrix') }}"
+      prefix: "{{ prefix | default('awtrixng') }}"
       target: "{{ target | default('') }}"
       fast: "{{ fast | default(true) }}"
   - choose:
@@ -11,14 +11,14 @@ sequence:
             value_template: "{{ target | lower == 'next' }}"
         sequence:
           - action: mqtt.publish
-            data: { topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/next", payload: "" }
+            data: { topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/next", payload: "" }
       # Vorherige App
       - conditions:
           - condition: template
             value_template: "{{ target | lower in ['previous', 'prev'] }}"
         sequence:
           - action: mqtt.publish
-            data: { topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/previous", payload: "" }
+            data: { topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/previous", payload: "" }
     # Zu benannter App springen
     default:
       - action: mqtt.publish
@@ -27,7 +27,7 @@ sequence:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/switch"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/switch"
           payload: "{\"name\": \"{{target}}\", \"fast\": {{ fast | tojson }}}"
 description: >-
   Springt zu einer App auf AWTRIX NG. "next"/"previous" blättern weiter, jeder
@@ -38,7 +38,7 @@ fields:
     selector:
       text:
     name: prefix
-    default: "awtrix"
+    default: "awtrixng"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   target:
     selector:

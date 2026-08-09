@@ -1,7 +1,7 @@
 alias: awtrix ng - display
 sequence:
   - variables:
-      prefix: "{{ prefix | default('awtrix') }}"
+      prefix: "{{ prefix | default('awtrixng') }}"
       power: "{{ power | default('keep') }}"
       overlay: "{{ overlay | default('keep') }}"
   - action: mqtt.publish
@@ -10,7 +10,7 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: "{{ prefix | default('awtrix', true) }}/cmd/display"
+      topic: "{{ prefix | default('awtrixng', true) }}/cmd/display"
       payload: >-
         {
         {%- set items = [] -%}
@@ -31,7 +31,7 @@ fields:
     selector:
       text:
     name: prefix
-    default: "awtrix"
+    default: "awtrixng"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   power:
     selector:

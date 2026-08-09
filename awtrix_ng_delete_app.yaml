@@ -1,7 +1,7 @@
 alias: awtrix ng - delete app
 sequence:
   - variables:
-      prefix: "{{ prefix | default('awtrix') }}"
+      prefix: "{{ prefix | default('awtrixng') }}"
       topicname: "{{ topicname | default('') }}"
   - action: mqtt.publish
     metadata: {}
@@ -9,7 +9,7 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/pushed/{{topicname}}"
+      topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/pushed/{{topicname}}"
       payload: ""
 description: "Löscht eine Pushed App auf AWTRIX NG (leeres Payload)."
 icon: mdi:delete
@@ -18,7 +18,7 @@ fields:
     selector:
       text:
     name: prefix
-    default: "awtrix"
+    default: "awtrixng"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   topicname:
     selector:

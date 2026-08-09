@@ -1,7 +1,7 @@
 alias: awtrix ng - new app
 sequence:
   - variables:
-      prefix: "{{ prefix | default('awtrix') }}"
+      prefix: "{{ prefix | default('awtrixng') }}"
       topicname: "{{ topicname | default('') }}"
       text: "{{ text | default('') }}"
       icon: "{{ icon | default('') }}"
@@ -18,7 +18,7 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/pushed/{{topicname}}"
+      topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/pushed/{{topicname}}"
       payload: |-
         {
           "text": "{{text}}",
@@ -43,7 +43,7 @@ sequence:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/switch"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/switch"
           payload: "{\"name\": \"{{topicname}}\", \"fast\": true}"
 description: "Erstellt/aktualisiert eine Pushed App auf AWTRIX NG (blueforcer/awtrix-ng)."
 icon: mdi:led-strip
@@ -52,7 +52,7 @@ fields:
     selector:
       text:
     name: prefix
-    default: "awtrix"
+    default: "awtrixng"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   topicname:
     selector:

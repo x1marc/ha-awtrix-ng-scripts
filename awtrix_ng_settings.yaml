@@ -1,7 +1,7 @@
 alias: awtrix ng - settings (brightness)
 sequence:
   - variables:
-      prefix: "{{ prefix | default('awtrix') }}"
+      prefix: "{{ prefix | default('awtrixng') }}"
       autobrightness: "{{ autobrightness | default(false) }}"
       brightness: "{{ brightness | default(120) }}"
   - action: mqtt.publish
@@ -10,7 +10,7 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: "{{ prefix | default('awtrix', true) }}/cmd/settings"
+      topic: "{{ prefix | default('awtrixng', true) }}/cmd/settings"
       payload: >-
         {"autoBrightness": {{ autobrightness | tojson }}{% if not autobrightness %}, "brightness": {{ brightness | int(120) }}{% endif %}}
 description: >-
@@ -22,7 +22,7 @@ fields:
     selector:
       text:
     name: prefix
-    default: "awtrix"
+    default: "awtrixng"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   autobrightness:
     selector:

@@ -1,14 +1,14 @@
 alias: awtrix ng - reboot
 sequence:
   - variables:
-      prefix: "{{ prefix | default('awtrix') }}"
+      prefix: "{{ prefix | default('awtrixng') }}"
   - action: mqtt.publish
     metadata: {}
     data:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: "{{ prefix | default('awtrix', true) }}/cmd/device/reboot"
+      topic: "{{ prefix | default('awtrixng', true) }}/cmd/device/reboot"
       payload: ""
 description: "Startet die AWTRIX-NG-Uhr neu."
 icon: mdi:restart
@@ -17,6 +17,6 @@ fields:
     selector:
       text:
     name: prefix
-    default: "awtrix"
+    default: "awtrixng"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
 mode: single

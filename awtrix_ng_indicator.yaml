@@ -1,7 +1,7 @@
 alias: awtrix ng - indicator
 sequence:
   - variables:
-      prefix: "{{ prefix | default('awtrix') }}"
+      prefix: "{{ prefix | default('awtrixng') }}"
       id: "{{ id | default(1) }}"
       mode: "{{ mode | default('set') }}"
       color: "{{ color | default([255, 0, 0]) }}"
@@ -15,7 +15,7 @@ sequence:
         sequence:
           - action: mqtt.publish
             data:
-              topic: "{{ prefix | default('awtrix', true) }}/cmd/indicators/{{ id | int(1) }}"
+              topic: "{{ prefix | default('awtrixng', true) }}/cmd/indicators/{{ id | int(1) }}"
               payload: "{}"
     # Setzen: Farbe + optional Blinken/Faden
     default:
@@ -25,7 +25,7 @@ sequence:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/indicators/{{ id | int(1) }}"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/indicators/{{ id | int(1) }}"
           payload: >-
             {"color": {{ (color or [255,0,0]) | tojson }}{% if (blink | int(0)) > 0 %}, "blinkMs": {{ blink | int }}{% endif %}{% if (fade | int(0)) > 0 %}, "fadeMs": {{ fade | int }}{% endif %}}
 description: >-
@@ -37,7 +37,7 @@ fields:
     selector:
       text:
     name: prefix
-    default: "awtrix"
+    default: "awtrixng"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   id:
     selector:

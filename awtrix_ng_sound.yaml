@@ -1,7 +1,7 @@
 alias: awtrix ng - sound
 sequence:
   - variables:
-      prefix: "{{ prefix | default('awtrix') }}"
+      prefix: "{{ prefix | default('awtrixng') }}"
       mode: "{{ mode | default('play') }}"
       type: "{{ type | default('name') }}"
       value: "{{ value | default('') }}"
@@ -12,7 +12,7 @@ sequence:
             value_template: "{{ mode == 'stop' }}"
         sequence:
           - action: mqtt.publish
-            data: { topic: "{{ prefix | default('awtrix', true) }}/cmd/sounds/stop", payload: "" }
+            data: { topic: "{{ prefix | default('awtrixng', true) }}/cmd/sounds/stop", payload: "" }
     # Abspielen: gespeicherte Melodie (name), Inline-RTTTL (rtttl) oder Builtin
     default:
       - action: mqtt.publish
@@ -21,7 +21,7 @@ sequence:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/sounds/play"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/sounds/play"
           payload: "{\"{{type}}\": \"{{value}}\"}"
 description: >-
   Spielt einen Sound auf AWTRIX NG ab (gespeicherte Melodie, Inline-RTTTL oder
@@ -32,7 +32,7 @@ fields:
     selector:
       text:
     name: prefix
-    default: "awtrix"
+    default: "awtrixng"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   mode:
     selector:

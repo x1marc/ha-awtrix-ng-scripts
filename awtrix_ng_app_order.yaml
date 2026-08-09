@@ -1,7 +1,7 @@
 alias: awtrix ng - app order
 sequence:
   - variables:
-      prefix: "{{ prefix | default('awtrix') }}"
+      prefix: "{{ prefix | default('awtrixng') }}"
       order: "{{ order | default('') }}"
       disabled: "{{ disabled | default('') }}"
   - action: mqtt.publish
@@ -10,7 +10,7 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/order"
+      topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/order"
       payload: >-
         {
         {%- set o = (order | default('')).split(',') | map('trim') | reject('equalto', '') | list -%}
@@ -30,7 +30,7 @@ fields:
     selector:
       text:
     name: prefix
-    default: "awtrix"
+    default: "awtrixng"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   order:
     selector:

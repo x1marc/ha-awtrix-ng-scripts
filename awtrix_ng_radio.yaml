@@ -1,7 +1,7 @@
 alias: awtrix ng - radio
 sequence:
   - variables:
-      prefix: "{{ prefix | default('awtrix') }}"
+      prefix: "{{ prefix | default('awtrixng') }}"
       mode: "{{ mode | default('play') }}"
       by: "{{ by | default('station') }}"
       value: "{{ value | default('') }}"
@@ -12,7 +12,7 @@ sequence:
             value_template: "{{ mode == 'stop' }}"
         sequence:
           - action: mqtt.publish
-            data: { topic: "{{ prefix | default('awtrix', true) }}/cmd/radio/stop", payload: "" }
+            data: { topic: "{{ prefix | default('awtrixng', true) }}/cmd/radio/stop", payload: "" }
     # Abspielen: nach Stationsname, Index oder URL
     default:
       - action: mqtt.publish
@@ -21,7 +21,7 @@ sequence:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "{{ prefix | default('awtrix', true) }}/cmd/radio/play"
+          topic: "{{ prefix | default('awtrixng', true) }}/cmd/radio/play"
           payload: >-
             {% if by == 'index' %}{"index": {{ value | int(0) }}}{% else %}{"{{by}}": "{{value}}"}{% endif %}
 description: >-
@@ -33,7 +33,7 @@ fields:
     selector:
       text:
     name: prefix
-    default: "awtrix"
+    default: "awtrixng"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   mode:
     selector:

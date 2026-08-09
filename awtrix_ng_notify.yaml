@@ -1,7 +1,7 @@
 alias: awtrix ng - notify
 sequence:
   - variables:
-      prefix: "{{ prefix | default('awtrix') }}"
+      prefix: "{{ prefix | default('awtrixng') }}"
       text: "{{ text | default('') }}"
       icon: "{{ icon | default('') }}"
       duration: "{{ duration | default(7) }}"
@@ -20,7 +20,7 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: "{{ prefix | default('awtrix', true) }}/cmd/notify"
+      topic: "{{ prefix | default('awtrixng', true) }}/cmd/notify"
       payload: |-
         {
           "text": "{{text}}",
@@ -44,7 +44,7 @@ fields:
     selector:
       text:
     name: prefix
-    default: "awtrix"
+    default: "awtrixng"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   text:
     selector:

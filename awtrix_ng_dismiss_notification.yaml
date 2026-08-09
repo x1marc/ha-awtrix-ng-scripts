@@ -1,7 +1,7 @@
 alias: awtrix ng - dismiss notification
 sequence:
   - variables:
-      prefix: "{{ prefix | default('awtrix') }}"
+      prefix: "{{ prefix | default('awtrixng') }}"
       name: "{{ name | default('') }}"
   - action: mqtt.publish
     metadata: {}
@@ -9,7 +9,7 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: "{{ prefix | default('awtrix', true) }}/cmd/notify/dismiss{% if name %}/{{name}}{% endif %}"
+      topic: "{{ prefix | default('awtrixng', true) }}/cmd/notify/dismiss{% if name %}/{{name}}{% endif %}"
       payload: ""
 description: >-
   Verwirft die aktuelle Notification – oder, wenn ein Name angegeben ist, eine
@@ -20,7 +20,7 @@ fields:
     selector:
       text:
     name: prefix
-    default: "awtrix"
+    default: "awtrixng"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   name:
     selector:
