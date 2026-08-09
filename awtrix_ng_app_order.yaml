@@ -24,18 +24,18 @@ icon: mdi:sort
 fields:
   prefix:
     selector:
-      text: {}
+      text:
     name: prefix
     default: "awtrix"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   order:
     selector:
-      text: {}
+      text:
     name: order
     description: 'Reihenfolge, kommagetrennt (z. B. "Time, weather, Battery")'
   disabled:
     selector:
-      text: {}
+      text:
     name: disabled
     description: 'Zu deaktivierende Apps, kommagetrennt (optional)'
 mode: parallel

@@ -57,7 +57,7 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
@@ -75,13 +75,13 @@ script:
         description: Anzuzeigender Text
       icon:
         selector:
-          text: {}
+          text:
         name: icon
         required: true
         description: Icon-ID, muss auf dem AWTRIX-Dateisystem vorhanden sein
       rainbow:
         selector:
-          boolean: {}
+          boolean:
         name: rainbow
         default: false
         required: true
@@ -117,13 +117,13 @@ script:
           (asTyped) - Standard 0
       showimmediately:
         selector:
-          boolean: {}
+          boolean:
         name: showImmediately
         required: false
         description: Sofort anzeigen (springt in der App-Reihenfolge vor) - Standard false
       textcolor:
         selector:
-          color_rgb: {}
+          color_rgb:
         name: textcolor
         default:
           - 255
@@ -159,13 +159,13 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       topicname:
         selector:
-          text: {}
+          text:
         name: topicname
         required: true
         description: Name der zu löschenden App
@@ -203,19 +203,19 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       text:
         selector:
-          text: {}
+          text:
         name: text
         required: true
         description: Anzuzeigender Text
       icon:
         selector:
-          text: {}
+          text:
         name: icon
         description: Icon-ID (optional)
       duration:
@@ -229,43 +229,43 @@ script:
         description: Anzeigedauer in Sekunden (bei hold=true ignoriert)
       hold:
         selector:
-          boolean: {}
+          boolean:
         name: hold
         default: false
         description: Bis zum manuellen Verwerfen halten
       stack:
         selector:
-          boolean: {}
+          boolean:
         name: stack
         default: true
         description: In Warteschlange stapeln (true) oder aktuelle ersetzen (false)
       wakeup:
         selector:
-          boolean: {}
+          boolean:
         name: wakeup
         default: false
         description: Display bei Bedarf einschalten
       center:
         selector:
-          boolean: {}
+          boolean:
         name: center
         default: false
         description: Text zentrieren (wenn er passt)
       blink:
         selector:
-          boolean: {}
+          boolean:
         name: blink
         default: false
         description: Text blinken lassen
       rainbow:
         selector:
-          boolean: {}
+          boolean:
         name: rainbow
         default: false
         description: Regenbogen-Text (via Palette "Rainbow")
       textcolor:
         selector:
-          color_rgb: {}
+          color_rgb:
         name: textcolor
         default:
           - 255
@@ -274,14 +274,14 @@ script:
         description: Textfarbe (bei rainbow ignoriert)
       effect:
         selector:
-          text: {}
+          text:
         name: effect
         description: >-
           Hintergrundeffekt-Name (leer = keiner). Gültige Namen siehe Geräte-
           Capabilities, z. B. PlasmaCloud, Radar, Matrix.
       sound:
         selector:
-          text: {}
+          text:
         name: sound
         description: Melodie-Dateiname (optional), muss auf dem Gerät liegen
     mode: parallel
@@ -305,13 +305,13 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       name:
         selector:
-          text: {}
+          text:
         name: name
         description: Name der Notification (leer = aktuelle verwerfen)
     mode: parallel
@@ -352,19 +352,19 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       target:
         selector:
-          text: {}
+          text:
         name: target
         required: true
         description: 'App-Name, oder "next" / "previous"'
       fast:
         selector:
-          boolean: {}
+          boolean:
         name: fast
         default: true
         description: Sofort umschalten (true) statt mit Übergangsanimation
@@ -398,18 +398,18 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       order:
         selector:
-          text: {}
+          text:
         name: order
         description: 'Reihenfolge, kommagetrennt (z. B. "Time, weather, Battery")'
       disabled:
         selector:
-          text: {}
+          text:
         name: disabled
         description: 'Zu deaktivierende Apps, kommagetrennt (optional)'
     mode: parallel
@@ -443,7 +443,7 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
@@ -515,7 +515,7 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
@@ -532,7 +532,7 @@ script:
         description: Moodlight ein-/ausschalten
       color:
         selector:
-          color_rgb: {}
+          color_rgb:
         name: color
         default:
           - 255
@@ -591,7 +591,7 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
@@ -618,7 +618,7 @@ script:
         description: Setzen oder ausschalten
       color:
         selector:
-          color_rgb: {}
+          color_rgb:
         name: color
         default:
           - 255
@@ -674,7 +674,7 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
@@ -704,7 +704,7 @@ script:
         description: Quelle des Sounds (nur bei "abspielen")
       value:
         selector:
-          text: {}
+          text:
         name: value
         description: >-
           Dateiname / RTTTL-String / Builtin-Name (z. B. "beep", "r2d2" oder
@@ -741,7 +741,7 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
@@ -771,7 +771,7 @@ script:
         description: Auswahlart (nur bei "abspielen")
       value:
         selector:
-          text: {}
+          text:
         name: value
         description: Stationsname / Index / Stream-URL
     mode: parallel
@@ -796,13 +796,13 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
       autobrightness:
         selector:
-          boolean: {}
+          boolean:
         name: autoBrightness
         default: false
         description: Automatische Helligkeit (Sensor) ein/aus
@@ -834,7 +834,7 @@ script:
     fields:
       prefix:
         selector:
-          text: {}
+          text:
         name: prefix
         default: "awtrix"
         description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
@@ -867,13 +867,13 @@ script:
     fields:
       ip:
         selector:
-          text: {}
+          text:
         name: ip
         required: true
         description: "IP oder Host der Uhr (z. B. 192.168.1.50)"
       file:
         selector:
-          text: {}
+          text:
         name: file
         required: true
         description: "Pfad zur .bin auf dem HA-Host (z. B. /config/firmware-awtrix-ng.bin)"

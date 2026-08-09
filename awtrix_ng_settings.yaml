@@ -16,13 +16,13 @@ icon: mdi:brightness-6
 fields:
   prefix:
     selector:
-      text: {}
+      text:
     name: prefix
     default: "awtrix"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   autobrightness:
     selector:
-      boolean: {}
+      boolean:
     name: autoBrightness
     default: false
     description: Automatische Helligkeit (Sensor) ein/aus

@@ -38,7 +38,7 @@ icon: mdi:led-strip
 fields:
   prefix:
     selector:
-      text: {}
+      text:
     name: prefix
     default: "awtrix"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
@@ -56,13 +56,13 @@ fields:
     description: Anzuzeigender Text
   icon:
     selector:
-      text: {}
+      text:
     name: icon
     required: true
     description: Icon-ID, muss auf dem AWTRIX-Dateisystem vorhanden sein
   rainbow:
     selector:
-      boolean: {}
+      boolean:
     name: rainbow
     default: false
     required: true
@@ -98,13 +98,13 @@ fields:
       (asTyped) - Standard 0
   showimmediately:
     selector:
-      boolean: {}
+      boolean:
     name: showImmediately
     required: false
     description: Sofort anzeigen (springt in der App-Reihenfolge vor) - Standard false
   textcolor:
     selector:
-      color_rgb: {}
+      color_rgb:
     name: textcolor
     default:
       - 255

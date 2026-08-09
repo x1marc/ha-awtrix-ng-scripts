@@ -28,19 +28,19 @@ icon: mdi:bell-ring
 fields:
   prefix:
     selector:
-      text: {}
+      text:
     name: prefix
     default: "awtrix"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   text:
     selector:
-      text: {}
+      text:
     name: text
     required: true
     description: Anzuzeigender Text
   icon:
     selector:
-      text: {}
+      text:
     name: icon
     description: Icon-ID (optional)
   duration:
@@ -54,43 +54,43 @@ fields:
     description: Anzeigedauer in Sekunden (bei hold=true ignoriert)
   hold:
     selector:
-      boolean: {}
+      boolean:
     name: hold
     default: false
     description: Bis zum manuellen Verwerfen halten
   stack:
     selector:
-      boolean: {}
+      boolean:
     name: stack
     default: true
     description: In Warteschlange stapeln (true) oder aktuelle ersetzen (false)
   wakeup:
     selector:
-      boolean: {}
+      boolean:
     name: wakeup
     default: false
     description: Display bei Bedarf einschalten
   center:
     selector:
-      boolean: {}
+      boolean:
     name: center
     default: false
     description: Text zentrieren (wenn er passt)
   blink:
     selector:
-      boolean: {}
+      boolean:
     name: blink
     default: false
     description: Text blinken lassen
   rainbow:
     selector:
-      boolean: {}
+      boolean:
     name: rainbow
     default: false
     description: Regenbogen-Text (via Palette "Rainbow")
   textcolor:
     selector:
-      color_rgb: {}
+      color_rgb:
     name: textcolor
     default:
       - 255
@@ -99,14 +99,14 @@ fields:
     description: Textfarbe (bei rainbow ignoriert)
   effect:
     selector:
-      text: {}
+      text:
     name: effect
     description: >-
       Hintergrundeffekt-Name (leer = keiner). Gültige Namen siehe Geräte-
       Capabilities, z. B. PlasmaCloud, Radar, Matrix.
   sound:
     selector:
-      text: {}
+      text:
     name: sound
     description: Melodie-Dateiname (optional), muss auf dem Gerät liegen
 mode: parallel

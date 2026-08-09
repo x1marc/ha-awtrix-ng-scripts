@@ -15,13 +15,13 @@ icon: mdi:bell-off
 fields:
   prefix:
     selector:
-      text: {}
+      text:
     name: prefix
     default: "awtrix"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   name:
     selector:
-      text: {}
+      text:
     name: name
     description: Name der Notification (leer = aktuelle verwerfen)
 mode: parallel

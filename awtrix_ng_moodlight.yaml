@@ -26,7 +26,7 @@ icon: mdi:television-ambient-light
 fields:
   prefix:
     selector:
-      text: {}
+      text:
     name: prefix
     default: "awtrix"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
@@ -43,7 +43,7 @@ fields:
     description: Moodlight ein-/ausschalten
   color:
     selector:
-      color_rgb: {}
+      color_rgb:
     name: color
     default:
       - 255

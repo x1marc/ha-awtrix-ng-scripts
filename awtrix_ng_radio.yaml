@@ -26,7 +26,7 @@ icon: mdi:radio
 fields:
   prefix:
     selector:
-      text: {}
+      text:
     name: prefix
     default: "awtrix"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
@@ -56,7 +56,7 @@ fields:
     description: Auswahlart (nur bei "abspielen")
   value:
     selector:
-      text: {}
+      text:
     name: value
     description: Stationsname / Index / Stream-URL
 mode: parallel

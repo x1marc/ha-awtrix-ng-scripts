@@ -28,7 +28,7 @@ icon: mdi:led-on
 fields:
   prefix:
     selector:
-      text: {}
+      text:
     name: prefix
     default: "awtrix"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
@@ -55,7 +55,7 @@ fields:
     description: Setzen oder ausschalten
   color:
     selector:
-      color_rgb: {}
+      color_rgb:
     name: color
     default:
       - 255

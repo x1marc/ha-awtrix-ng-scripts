@@ -32,19 +32,19 @@ icon: mdi:arrow-right-bold-box
 fields:
   prefix:
     selector:
-      text: {}
+      text:
     name: prefix
     default: "awtrix"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   target:
     selector:
-      text: {}
+      text:
     name: target
     required: true
     description: 'App-Name, oder "next" / "previous"'
   fast:
     selector:
-      boolean: {}
+      boolean:
     name: fast
     default: true
     description: Sofort umschalten (true) statt mit Übergangsanimation

@@ -24,13 +24,13 @@ icon: mdi:chip
 fields:
   ip:
     selector:
-      text: {}
+      text:
     name: ip
     required: true
     description: "IP oder Host der Uhr (z. B. 192.168.1.50)"
   file:
     selector:
-      text: {}
+      text:
     name: file
     required: true
     description: "Pfad zur .bin auf dem HA-Host (z. B. /config/firmware-awtrix-ng.bin)"

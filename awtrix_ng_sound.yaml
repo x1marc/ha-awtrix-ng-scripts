@@ -25,7 +25,7 @@ icon: mdi:music-note
 fields:
   prefix:
     selector:
-      text: {}
+      text:
     name: prefix
     default: "awtrix"
     description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
@@ -55,7 +55,7 @@ fields:
     description: Quelle des Sounds (nur bei "abspielen")
   value:
     selector:
-      text: {}
+      text:
     name: value
     description: >-
       Dateiname / RTTTL-String / Builtin-Name (z. B. "beep", "r2d2" oder
