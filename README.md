@@ -32,11 +32,30 @@ wiederverwendbares HA-Skript mit Eingabefeldern.
 
 ## Verwendung
 
-1. In Home Assistant: **Einstellungen → Automationen & Szenen → Skripte →
-   Skript hinzufügen → (drei Punkte) → In YAML bearbeiten**.
+### Alle Skripte auf einmal (empfohlen)
+
+Die Datei [`awtrix_ng_all_scripts.yaml`](awtrix_ng_all_scripts.yaml) enthält
+**alle** Skripte als Home-Assistant-**Package**:
+
+1. Datei nach `config/packages/awtrix_ng.yaml` kopieren (z. B. via File-Editor
+   oder Studio Code Server).
+2. Falls Packages noch nicht aktiv sind, in `configuration.yaml`:
+   ```yaml
+   homeassistant:
+     packages: !include_dir_named packages
+   ```
+3. **Entwicklerwerkzeuge → YAML → „Skripte neu laden"** (oder HA neu starten).
+
+Danach erscheinen alle Skripte unter **Einstellungen → Skripte**. Bei dir das
+**`prefix`-Feld auf `awtrixng`** setzen.
+
+### Einzeln
+
+1. **Einstellungen → Automationen & Szenen → Skripte → Skript hinzufügen →
+   (drei Punkte) → In YAML bearbeiten**.
 2. Inhalt der gewünschten `.yaml` einfügen und speichern.
-3. Das Skript per Dienst-Aufruf mit den Feldern nutzen (Automation, Dashboard-
-   Button) oder in den **Entwicklerwerkzeugen → Aktionen** testen.
+3. Per Dienst-Aufruf mit den Feldern nutzen oder in **Entwicklerwerkzeugen →
+   Aktionen** testen.
 
 **Topic-Prefix:** Jedes Skript hat ein Feld **`prefix`** (Standard `awtrix`).
 Trag dort das MQTT-Prefix deiner NG-Uhr ein (z. B. `awtrixng`). Das Prefix
