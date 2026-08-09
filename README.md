@@ -12,7 +12,7 @@ wiederverwendbares HA-Skript mit Eingabefeldern.
 
 | Skript | Datei | Zweck |
 |---|---|---|
-| **new app** | [`awtrix_ng_new_app.yaml`](awtrix_ng_new_app.yaml) | Pushed App anlegen/aktualisieren (Text, Icon, Farbe/Rainbow, Dauer, Lifetime, Fortschritt, sofort anzeigen) |
+| **new app** | [`awtrix_ng_new_app.yaml`](awtrix_ng_new_app.yaml) | Pushed App anlegen/aktualisieren (Text, Icon, iconMode, Farbe/Palette, Effekt, Scroll-Modus/-Tempo, repeat, Dauer, Lifetime, Fortschritt, sofort anzeigen) |
 | **delete app** | [`awtrix_ng_delete_app.yaml`](awtrix_ng_delete_app.yaml) | Pushed App löschen |
 | **notify** | [`awtrix_ng_notify.yaml`](awtrix_ng_notify.yaml) | Notification senden (hold, stack, blink, Sound, Effekt, Farbe/Rainbow …) |
 | **dismiss notification** | [`awtrix_ng_dismiss_notification.yaml`](awtrix_ng_dismiss_notification.yaml) | Aktuelle oder benannte Notification verwerfen |
@@ -23,6 +23,7 @@ wiederverwendbares HA-Skript mit Eingabefeldern.
 | **indicator** | [`awtrix_ng_indicator.yaml`](awtrix_ng_indicator.yaml) | Status-LEDs 1–3 (Farbe, Blinken, Faden) |
 | **sound** | [`awtrix_ng_sound.yaml`](awtrix_ng_sound.yaml) | Melodie / RTTTL / Builtin abspielen oder stoppen |
 | **radio** | [`awtrix_ng_radio.yaml`](awtrix_ng_radio.yaml) | Radio abspielen/stoppen (Station/Index/URL) |
+| **graph** | [`awtrix_ng_graph.yaml`](awtrix_ng_graph.yaml) | Balken-/Linien-Diagramm oder Fortschrittsbalken als App |
 | **settings (brightness)** | [`awtrix_ng_settings.yaml`](awtrix_ng_settings.yaml) | Helligkeit & Auto-Helligkeit |
 | **reboot** | [`awtrix_ng_reboot.yaml`](awtrix_ng_reboot.yaml) | Uhr neu starten |
 | **firmware update** | [`awtrix_ng_firmware_update.yaml`](awtrix_ng_firmware_update.yaml) | `.bin` per HTTP hochladen (kein MQTT – [Setup nötig](#firmware-update-http-kein-mqtt)) |

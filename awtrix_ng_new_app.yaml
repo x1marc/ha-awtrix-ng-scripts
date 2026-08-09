@@ -14,6 +14,10 @@ sequence:
       textcolor: "{{ textcolor | default([255, 255, 255]) }}"
       progress: "{{ progress | default(0) }}"
       scrollspeed: "{{ scrollspeed | default(80) }}"
+      effect: "{{ effect | default('none') }}"
+      palette: "{{ palette | default('none') }}"
+      scrollmode: "{{ scrollmode | default('keep') }}"
+      repeat: "{{ repeat | default(0) }}"
   - action: mqtt.publish
     metadata: {}
     data:
@@ -29,8 +33,10 @@ sequence:
           "durationMs": {{ (duration | int(3)) * 1000 }},
           "lifetimeMs": {{ (lifetime | int(0)) * 1000 }},
           "textCase": "{{ ['inherit','upper','asTyped'][textcase | int(0)] }}",
-          "scroll": {"speed": {{ scrollspeed | int(80) }}}{% if rainbow %},
-          "palette": "Rainbow",
+          "scroll": {"speed": {{ scrollspeed | int(80) }}{% if scrollmode != 'keep' %}, "mode": "{{ scrollmode }}"{% endif %}}{% if effect not in ['none','',None] %},
+          "effect": "{{ effect }}"{% endif %}{% if (repeat | int(0)) > 0 %},
+          "repeat": {{ repeat | int }}{% endif %}{% if rainbow or palette not in ['none','',None] %},
+          "palette": "{{ 'Rainbow' if rainbow else palette }}",
           "textColor": "palette",
           "paletteSpeed": 1{% else %},
           "textColor": {{ (textcolor or [255,255,255]) | tojson }}{% endif %}{% if (progress | int(0)) > 0 %},
@@ -97,6 +103,104 @@ fields:
     name: scrollSpeed
     default: 80
     description: Scroll-Geschwindigkeit (NG-scroll.speed). Standard 80.
+  effect:
+    selector:
+      select:
+        options:
+          - label: "kein Effekt"
+            value: none
+          - label: Fade
+            value: Fade
+          - label: MovingLine
+            value: MovingLine
+          - label: BrickBreaker
+            value: BrickBreaker
+          - label: PingPong
+            value: PingPong
+          - label: Radar
+            value: Radar
+          - label: Checkerboard
+            value: Checkerboard
+          - label: Fireworks
+            value: Fireworks
+          - label: PlasmaCloud
+            value: PlasmaCloud
+          - label: Ripple
+            value: Ripple
+          - label: Snake
+            value: Snake
+          - label: Pacifica
+            value: Pacifica
+          - label: TheaterChase
+            value: TheaterChase
+          - label: Plasma
+            value: Plasma
+          - label: Matrix
+            value: Matrix
+          - label: SwirlIn
+            value: SwirlIn
+          - label: SwirlOut
+            value: SwirlOut
+          - label: LookingEyes
+            value: LookingEyes
+          - label: TwinklingStars
+            value: TwinklingStars
+          - label: ColorWaves
+            value: ColorWaves
+    name: effect
+    default: none
+    description: Hintergrundeffekt (NG). "kein Effekt" = keiner.
+  palette:
+    selector:
+      select:
+        options:
+          - label: "keine Palette"
+            value: none
+          - label: Rainbow
+            value: Rainbow
+          - label: Cloud
+            value: Cloud
+          - label: Lava
+            value: Lava
+          - label: Ocean
+            value: Ocean
+          - label: Forest
+            value: Forest
+          - label: Stripe
+            value: Stripe
+          - label: Party
+            value: Party
+          - label: Heat
+            value: Heat
+    name: palette
+    default: none
+    description: Farbverlauf-Palette fuer den Text (ueberschreibt die Farbe).
+  scrollmode:
+    selector:
+      select:
+        options:
+          - label: "Standard (Geraet)"
+            value: keep
+          - label: "static (kein Scrollen)"
+            value: static
+          - label: wrap
+            value: wrap
+          - label: loop
+            value: loop
+          - label: bounce
+            value: bounce
+    name: scrollMode
+    default: keep
+    description: Scroll-Modus des Textes
+  repeat:
+    selector:
+      number:
+        min: 0
+        max: 20
+        step: 1
+    name: repeat
+    default: 0
+    description: Wie oft der Text durchlaeuft (0 = aus, nutzt Anzeigedauer)
   rainbow:
     selector:
       boolean:

@@ -1,0 +1,127 @@
+alias: awtrix ng - graph
+sequence:
+  - variables:
+      prefix: "{{ prefix | default('awtrixng') }}"
+      topicname: "{{ topicname | default('graph') }}"
+      charttype: "{{ charttype | default('bar') }}"
+      values: "{{ values | default('') }}"
+      progress: "{{ progress | default(0) }}"
+      text: "{{ text | default('') }}"
+      icon: "{{ icon | default('') }}"
+      color: "{{ color | default([0, 255, 0]) }}"
+      autoscale: "{{ autoscale | default(true) }}"
+      duration: "{{ duration | default(6) }}"
+      lifetime: "{{ lifetime | default(0) }}"
+      vals: >-
+        {{ (values | default('')).split(',') | map('trim') | reject('equalto', '') | map('int', 0) | list }}
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      evaluate_payload: false
+      qos: 0
+      retain: false
+      topic: "{{ prefix | default('awtrixng', true) }}/cmd/apps/pushed/{{ topicname }}"
+      payload: >-
+        {
+          "durationMs": {{ (duration | int(6)) * 1000 }},
+          "lifetimeMs": {{ (lifetime | int(0)) * 1000 }}{% if text %},
+          "text": "{{ text }}"{% endif %}{% if icon %},
+          "icon": "{{ icon }}"{% endif %}{% if charttype == 'progress' %},
+          "progress": {{ progress | int(0) }},
+          "progressColor": {{ (color or [0,255,0]) | tojson }}{% elif charttype == 'line' %},
+          "lineChart": {{ vals | tojson }},
+          "chartAutoscale": {{ autoscale | tojson }},
+          "chartColor": {{ (color or [0,255,0]) | tojson }}{% else %},
+          "barChart": {{ vals | tojson }},
+          "chartAutoscale": {{ autoscale | tojson }},
+          "chartColor": {{ (color or [0,255,0]) | tojson }}{% endif %}
+        }
+description: >-
+  Zeigt ein Balken-/Linien-Diagramm oder einen Fortschrittsbalken als Pushed App
+  auf AWTRIX NG (max. 16 Werte).
+icon: mdi:chart-bar
+fields:
+  prefix:
+    selector:
+      text:
+    name: prefix
+    default: "awtrixng"
+    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
+  topicname:
+    selector:
+      text:
+    name: topicname
+    default: graph
+    description: App-Name (Topic). Nur A-Z a-z 0-9 _ -
+  charttype:
+    selector:
+      select:
+        options:
+          - label: "Balken (barChart)"
+            value: bar
+          - label: "Linie (lineChart)"
+            value: line
+          - label: "Fortschritt (progress)"
+            value: progress
+    name: charttype
+    default: bar
+    description: Diagramm-Typ
+  values:
+    selector:
+      text:
+    name: values
+    description: 'Werte fuer Balken/Linie, kommagetrennt (max. 16), z. B. "3,5,8,4,9"'
+  progress:
+    selector:
+      number:
+        min: 0
+        max: 100
+        step: 1
+    name: progress
+    default: 0
+    description: Fortschritt 0-100 (nur bei Typ "Fortschritt")
+  text:
+    selector:
+      text:
+    name: text
+    description: Optionaler Text neben dem Diagramm
+  icon:
+    selector:
+      text:
+    name: icon
+    description: Optionale Icon-ID
+  color:
+    selector:
+      color_rgb:
+    name: color
+    default:
+      - 0
+      - 255
+      - 0
+    description: Diagramm-/Balkenfarbe
+  autoscale:
+    selector:
+      boolean:
+    name: autoscale
+    default: true
+    description: Automatisch skalieren (nur Balken/Linie)
+  duration:
+    selector:
+      number:
+        min: 1
+        max: 180
+        step: 1
+    name: duration
+    default: 6
+    description: Anzeigedauer in Sekunden
+  lifetime:
+    selector:
+      number:
+        min: 0
+        max: 86400
+        step: 1
+    name: lifetime
+    default: 0
+    description: App nach X Sekunden verwerfen - 0 = nie
+mode: parallel
+max: 10

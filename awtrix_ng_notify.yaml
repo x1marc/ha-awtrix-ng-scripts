@@ -12,10 +12,13 @@ sequence:
       blink: "{{ blink | default(false) }}"
       rainbow: "{{ rainbow | default(false) }}"
       textcolor: "{{ textcolor | default([255, 255, 255]) }}"
-      effect: "{{ effect | default('') }}"
+      effect: "{{ effect | default('none') }}"
       sound: "{{ sound | default('') }}"
       iconmode: "{{ iconmode | default('fixed') }}"
       scrollspeed: "{{ scrollspeed | default(80) }}"
+      palette: "{{ palette | default('none') }}"
+      scrollmode: "{{ scrollmode | default('keep') }}"
+      repeat: "{{ repeat | default(0) }}"
   - action: mqtt.publish
     metadata: {}
     data:
@@ -31,12 +34,13 @@ sequence:
           "hold": {{ hold | tojson }},
           "wakeup": {{ wakeup | tojson }},
           "textCenter": {{ center | tojson }},
-          "scroll": {"speed": {{ scrollspeed | int(80) }}}{% if icon %},
+          "scroll": {"speed": {{ scrollspeed | int(80) }}{% if scrollmode != 'keep' %}, "mode": "{{ scrollmode }}"{% endif %}}{% if icon %},
           "icon": "{{icon}}","iconMode":"{{iconmode}}"{% endif %}{% if blink %},
-          "textBlinkMs": 500{% endif %}{% if effect %},
-          "effect": "{{effect}}"{% endif %}{% if sound %},
-          "sound": "{{sound}}"{% endif %}{% if rainbow %},
-          "palette": "Rainbow",
+          "textBlinkMs": 500{% endif %}{% if effect not in ['none','',None] %},
+          "effect": "{{effect}}"{% endif %}{% if (repeat | int(0)) > 0 %},
+          "repeat": {{ repeat | int }}{% endif %}{% if sound %},
+          "sound": "{{sound}}"{% endif %}{% if rainbow or palette not in ['none','',None] %},
+          "palette": "{{ 'Rainbow' if rainbow else palette }}",
           "textColor": "palette"{% else %},
           "textColor": {{ (textcolor or [255,255,255]) | tojson }}{% endif %}
         }
@@ -138,15 +142,106 @@ fields:
     description: Textfarbe (bei rainbow ignoriert)
   effect:
     selector:
-      text:
+      select:
+        options:
+          - label: "kein Effekt"
+            value: none
+          - label: Fade
+            value: Fade
+          - label: MovingLine
+            value: MovingLine
+          - label: BrickBreaker
+            value: BrickBreaker
+          - label: PingPong
+            value: PingPong
+          - label: Radar
+            value: Radar
+          - label: Checkerboard
+            value: Checkerboard
+          - label: Fireworks
+            value: Fireworks
+          - label: PlasmaCloud
+            value: PlasmaCloud
+          - label: Ripple
+            value: Ripple
+          - label: Snake
+            value: Snake
+          - label: Pacifica
+            value: Pacifica
+          - label: TheaterChase
+            value: TheaterChase
+          - label: Plasma
+            value: Plasma
+          - label: Matrix
+            value: Matrix
+          - label: SwirlIn
+            value: SwirlIn
+          - label: SwirlOut
+            value: SwirlOut
+          - label: LookingEyes
+            value: LookingEyes
+          - label: TwinklingStars
+            value: TwinklingStars
+          - label: ColorWaves
+            value: ColorWaves
     name: effect
-    description: >-
-      Hintergrundeffekt-Name (leer = keiner). Gültige Namen siehe Geräte-
-      Capabilities, z. B. PlasmaCloud, Radar, Matrix.
+    default: none
+    description: Hintergrundeffekt (NG). "kein Effekt" = keiner.
   sound:
     selector:
       text:
     name: sound
     description: Melodie-Dateiname (optional), muss auf dem Gerät liegen
+  palette:
+    selector:
+      select:
+        options:
+          - label: "keine Palette"
+            value: none
+          - label: Rainbow
+            value: Rainbow
+          - label: Cloud
+            value: Cloud
+          - label: Lava
+            value: Lava
+          - label: Ocean
+            value: Ocean
+          - label: Forest
+            value: Forest
+          - label: Stripe
+            value: Stripe
+          - label: Party
+            value: Party
+          - label: Heat
+            value: Heat
+    name: palette
+    default: none
+    description: Farbverlauf-Palette fuer den Text (ueberschreibt die Farbe).
+  scrollmode:
+    selector:
+      select:
+        options:
+          - label: "Standard (Geraet)"
+            value: keep
+          - label: "static (kein Scrollen)"
+            value: static
+          - label: wrap
+            value: wrap
+          - label: loop
+            value: loop
+          - label: bounce
+            value: bounce
+    name: scrollMode
+    default: keep
+    description: Scroll-Modus des Textes
+  repeat:
+    selector:
+      number:
+        min: 0
+        max: 20
+        step: 1
+    name: repeat
+    default: 0
+    description: Wie oft der Text durchlaeuft (0 = aus, nutzt Anzeigedauer)
 mode: parallel
 max: 10
