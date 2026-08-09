@@ -6,7 +6,7 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: awtrix/cmd/notify
+      topic: "{{ prefix | default('awtrix', true) }}/cmd/notify"
       payload: |-
         {
           "text": "{{text}}",
@@ -26,6 +26,12 @@ sequence:
 description: "Sendet eine Notification an AWTRIX NG (überlagert die laufenden Apps)."
 icon: mdi:bell-ring
 fields:
+  prefix:
+    selector:
+      text: {}
+    name: prefix
+    default: "awtrix"
+    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   text:
     selector:
       text: {}

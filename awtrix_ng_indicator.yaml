@@ -8,7 +8,7 @@ sequence:
         sequence:
           - action: mqtt.publish
             data:
-              topic: "awtrix/cmd/indicators/{{ id | int(1) }}"
+              topic: "{{ prefix | default('awtrix', true) }}/cmd/indicators/{{ id | int(1) }}"
               payload: "{}"
     # Setzen: Farbe + optional Blinken/Faden
     default:
@@ -18,7 +18,7 @@ sequence:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: "awtrix/cmd/indicators/{{ id | int(1) }}"
+          topic: "{{ prefix | default('awtrix', true) }}/cmd/indicators/{{ id | int(1) }}"
           payload: >-
             {"color": {{ (color or [255,0,0]) | tojson }}{% if (blink | int(0)) > 0 %}, "blinkMs": {{ blink | int }}{% endif %}{% if (fade | int(0)) > 0 %}, "fadeMs": {{ fade | int }}{% endif %}}
 description: >-
@@ -26,6 +26,12 @@ description: >-
   Farbe mit optionalem Blinken/Faden – oder schaltet sie aus.
 icon: mdi:led-on
 fields:
+  prefix:
+    selector:
+      text: {}
+    name: prefix
+    default: "awtrix"
+    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   id:
     selector:
       number:

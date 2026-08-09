@@ -6,13 +6,19 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: "awtrix/cmd/notify/dismiss{% if name %}/{{name}}{% endif %}"
+      topic: "{{ prefix | default('awtrix', true) }}/cmd/notify/dismiss{% if name %}/{{name}}{% endif %}"
       payload: ""
 description: >-
   Verwirft die aktuelle Notification – oder, wenn ein Name angegeben ist, eine
   benannte Notification (AWTRIX NG).
 icon: mdi:bell-off
 fields:
+  prefix:
+    selector:
+      text: {}
+    name: prefix
+    default: "awtrix"
+    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   name:
     selector:
       text: {}

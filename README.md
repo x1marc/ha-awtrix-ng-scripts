@@ -38,8 +38,11 @@ wiederverwendbares HA-Skript mit Eingabefeldern.
 3. Das Skript per Dienst-Aufruf mit den Feldern nutzen (Automation, Dashboard-
    Button) oder in den **Entwicklerwerkzeugen → Aktionen** testen.
 
-**Topic-Prefix:** Alle Skripte verwenden `awtrix` als MQTT-Prefix. Nutzt deine
-NG-Uhr einen anderen Prefix (z. B. `awtrixNG`), in den `topic:`-Zeilen anpassen.
+**Topic-Prefix:** Jedes Skript hat ein Feld **`prefix`** (Standard `awtrix`).
+Trag dort das MQTT-Prefix deiner NG-Uhr ein (z. B. `awtrixng`). Das Prefix
+findest du in der Weboberfläche der Uhr bzw. per MQTT-Auto-Discovery; ist es
+leer, nutzt NG die 12-stellige MAC. (Nur `awtrix_ng_firmware_update` nutzt statt
+MQTT die Geräte-`ip`.)
 
 **Hinweis:** AWTRIX NG validiert Payloads strikt – ein ungültiger Key/Wert lässt
 den **ganzen** Befehl scheitern. Deshalb sind optionale Felder in den Skripten

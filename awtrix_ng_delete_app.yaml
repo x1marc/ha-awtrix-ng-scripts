@@ -6,11 +6,17 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: awtrix/cmd/apps/pushed/{{topicname}}
+      topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/pushed/{{topicname}}"
       payload: ""
 description: "Löscht eine Pushed App auf AWTRIX NG (leeres Payload)."
 icon: mdi:delete
 fields:
+  prefix:
+    selector:
+      text: {}
+    name: prefix
+    default: "awtrix"
+    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   topicname:
     selector:
       text: {}

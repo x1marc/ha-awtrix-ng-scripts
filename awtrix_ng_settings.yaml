@@ -6,7 +6,7 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: awtrix/cmd/settings
+      topic: "{{ prefix | default('awtrix', true) }}/cmd/settings"
       payload: >-
         {"autoBrightness": {{ autobrightness | tojson }}{% if not autobrightness %}, "brightness": {{ brightness | int(120) }}{% endif %}}
 description: >-
@@ -14,6 +14,12 @@ description: >-
   Auto-Helligkeit wird der manuelle Wert weggelassen.
 icon: mdi:brightness-6
 fields:
+  prefix:
+    selector:
+      text: {}
+    name: prefix
+    default: "awtrix"
+    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   autobrightness:
     selector:
       boolean: {}

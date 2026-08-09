@@ -7,7 +7,7 @@ sequence:
             value_template: "{{ mode == 'off' }}"
         sequence:
           - action: mqtt.publish
-            data: { topic: awtrix/cmd/display/moodlight, payload: "" }
+            data: { topic: "{{ prefix | default('awtrix', true) }}/cmd/display/moodlight", payload: "" }
     # An – per Farbe oder Farbtemperatur (Kelvin)
     default:
       - action: mqtt.publish
@@ -16,7 +16,7 @@ sequence:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: awtrix/cmd/display/moodlight
+          topic: "{{ prefix | default('awtrix', true) }}/cmd/display/moodlight"
           payload: >-
             {% if (kelvin | int(0)) > 0 %}{"kelvin": {{ kelvin | int }}, "brightness": {{ brightness | int(120) }}}{% else %}{"color": {{ (color or [255,255,255]) | tojson }}, "brightness": {{ brightness | int(120) }}}{% endif %}
 description: >-
@@ -24,6 +24,12 @@ description: >-
   Modus "aus" schaltet das Moodlight ab.
 icon: mdi:television-ambient-light
 fields:
+  prefix:
+    selector:
+      text: {}
+    name: prefix
+    default: "awtrix"
+    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   mode:
     selector:
       select:

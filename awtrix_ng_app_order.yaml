@@ -6,7 +6,7 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: awtrix/cmd/apps/order
+      topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/order"
       payload: >-
         {
         {%- set o = (order | default('')).split(',') | map('trim') | reject('equalto', '') | list -%}
@@ -22,6 +22,12 @@ description: >-
   Reihenfolge sichtbar – prüfe die Namen genau (GET /api/v1/apps).
 icon: mdi:sort
 fields:
+  prefix:
+    selector:
+      text: {}
+    name: prefix
+    default: "awtrix"
+    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   order:
     selector:
       text: {}

@@ -6,7 +6,7 @@ sequence:
       evaluate_payload: false
       qos: 0
       retain: false
-      topic: awtrix/cmd/display
+      topic: "{{ prefix | default('awtrix', true) }}/cmd/display"
       payload: >-
         {
         {%- set items = [] -%}
@@ -23,6 +23,12 @@ description: >-
   "beibehalten" lässt den jeweiligen Wert unverändert.
 icon: mdi:monitor
 fields:
+  prefix:
+    selector:
+      text: {}
+    name: prefix
+    default: "awtrix"
+    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   power:
     selector:
       select:

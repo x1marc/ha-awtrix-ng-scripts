@@ -7,14 +7,14 @@ sequence:
             value_template: "{{ target | lower == 'next' }}"
         sequence:
           - action: mqtt.publish
-            data: { topic: awtrix/cmd/apps/next, payload: "" }
+            data: { topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/next", payload: "" }
       # Vorherige App
       - conditions:
           - condition: template
             value_template: "{{ target | lower in ['previous', 'prev'] }}"
         sequence:
           - action: mqtt.publish
-            data: { topic: awtrix/cmd/apps/previous, payload: "" }
+            data: { topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/previous", payload: "" }
     # Zu benannter App springen
     default:
       - action: mqtt.publish
@@ -23,13 +23,19 @@ sequence:
           evaluate_payload: false
           qos: 0
           retain: false
-          topic: awtrix/cmd/apps/switch
+          topic: "{{ prefix | default('awtrix', true) }}/cmd/apps/switch"
           payload: "{\"name\": \"{{target}}\", \"fast\": {{ fast | tojson }}}"
 description: >-
   Springt zu einer App auf AWTRIX NG. "next"/"previous" blättern weiter, jeder
   andere Wert wird als App-Name interpretiert.
 icon: mdi:arrow-right-bold-box
 fields:
+  prefix:
+    selector:
+      text: {}
+    name: prefix
+    default: "awtrix"
+    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
   target:
     selector:
       text: {}
