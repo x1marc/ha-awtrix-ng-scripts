@@ -25,8 +25,9 @@ wiederverwendbares HA-Skript mit Eingabefeldern.
 | **radio** | [`awtrix_ng_radio.yaml`](awtrix_ng_radio.yaml) | Radio abspielen/stoppen (Station/Index/URL) |
 | **settings (brightness)** | [`awtrix_ng_settings.yaml`](awtrix_ng_settings.yaml) | Helligkeit & Auto-Helligkeit |
 | **reboot** | [`awtrix_ng_reboot.yaml`](awtrix_ng_reboot.yaml) | Uhr neu starten |
+| **firmware update** | [`awtrix_ng_firmware_update.yaml`](awtrix_ng_firmware_update.yaml) | `.bin` per HTTP hochladen (kein MQTT – [Setup nötig](#firmware-update-http-kein-mqtt)) |
 
-> Bewusst **nicht** enthalten (gefährlich/niche): Factory-Reset, Firmware-Update,
+> Bewusst **nicht** enthalten (gefährlich/niche): Factory-Reset,
 > System-/WLAN-Konfiguration, Datei-Upload. Diese lassen sich bei Bedarf ergänzen.
 
 ## Verwendung
@@ -44,6 +45,35 @@ NG-Uhr einen anderen Prefix (z. B. `awtrixNG`), in den `topic:`-Zeilen anpassen.
 den **ganzen** Befehl scheitern. Deshalb sind optionale Felder in den Skripten
 konditional aufgebaut. Effekt-/Palettennamen und verfügbare Sounds sind
 geräteabhängig (siehe `GET /api/v1/capabilities` bzw. das Dateisystem der Uhr).
+
+## Firmware-Update (HTTP, kein MQTT)
+
+AWTRIX NG kennt für Firmware-Updates **keinen MQTT-Befehl** und kein OTA-per-URL –
+die Firmware wird als `.bin` per **HTTP-Multipart** hochgeladen (`POST /update`).
+Das fehlgeschlagene Image wird in einen Reserve-Slot geschrieben und erst nach
+vollständiger Prüfung aktiviert – ein abgebrochener Upload ist also ungefährlich.
+
+**Manuell** (von jedem PC) oder über die Web-Oberfläche der Uhr:
+```bash
+curl -X POST http://<ip>/update -F "firmware=@firmware-awtrix-ng.bin"
+```
+
+**Aus Home Assistant** (Skript [`awtrix_ng_firmware_update.yaml`](awtrix_ng_firmware_update.yaml)):
+
+1. Firmware-`.bin` auf den HA-Host legen, z. B. `/config/firmware-awtrix-ng.bin`.
+2. In `configuration.yaml` ergänzen:
+   ```yaml
+   shell_command:
+     awtrix_ng_firmware_update: >-
+       curl -sS -X POST "http://{{ ip }}/update" -F "firmware=@{{ file }}"
+   ```
+3. Home Assistant neu starten (oder YAML neu laden), dann das Skript importieren.
+4. Skript mit `ip` (z. B. `192.168.1.50`) und `file` (Pfad zur `.bin`) aufrufen.
+
+> **Voraussetzung:** `curl` muss in der HA-Umgebung verfügbar sein (bei HA OS /
+> Container meist vorhanden). Fehlt es, den Upload von einem PC oder über das
+> Add-on **„Advanced SSH & Web Terminal"** ausführen. Lade die passende Datei –
+> `firmware-awtrix-ng.bin` für ein Gerät, das bereits NG läuft.
 
 ## AWTRIX NG – MQTT-Kurzreferenz
 

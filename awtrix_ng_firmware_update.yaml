@@ -1,0 +1,37 @@
+alias: awtrix ng - firmware update (HTTP/curl)
+sequence:
+  # Firmware-Update ist bei NG KEIN MQTT-Befehl -> HTTP-Upload via shell_command.
+  # Voraussetzung: shell_command 'awtrix_ng_firmware_update' in configuration.yaml
+  # (siehe README) und die .bin liegt auf dem HA-Host.
+  - action: shell_command.awtrix_ng_firmware_update
+    data:
+      ip: "{{ ip }}"
+      file: "{{ file }}"
+    response_variable: result
+  - if:
+      - condition: template
+        value_template: "{{ result.returncode | default(0) != 0 }}"
+    then:
+      - stop: >-
+          Firmware-Upload fehlgeschlagen (returncode
+          {{ result.returncode }}): {{ result.stderr | default('') }}
+        error: true
+description: >-
+  Lädt eine AWTRIX-NG-Firmware (.bin) per HTTP auf die Uhr (POST /update,
+  multipart). Nutzt den shell_command 'awtrix_ng_firmware_update' – siehe README,
+  Firmware-Update ist bei NG KEIN MQTT-Befehl.
+icon: mdi:chip
+fields:
+  ip:
+    selector:
+      text: {}
+    name: ip
+    required: true
+    description: "IP oder Host der Uhr (z. B. 192.168.1.50)"
+  file:
+    selector:
+      text: {}
+    name: file
+    required: true
+    description: "Pfad zur .bin auf dem HA-Host (z. B. /config/firmware-awtrix-ng.bin)"
+mode: single
