@@ -1157,7 +1157,7 @@ script:
           duration: "{{ duration | default(6) }}"
           lifetime: "{{ lifetime | default(0) }}"
           vals: >-
-            {{ (values | default('')).split(',') | map('trim') | reject('equalto', '') | map('int', 0) | list }}
+            {% set v = values | default('') %}{% if v is string %}{{ v.split(',') | map('trim') | reject('equalto', '') | map('int', 0) | list }}{% else %}{{ v | map('int', 0) | list }}{% endif %}
       - action: mqtt.publish
         metadata: {}
         data:

@@ -12,7 +12,7 @@ actions:
       prefix: awtrixng
       topicname: solar
       charttype: bar
-      values: "{{ state_attr('sensor.solar_verlauf','series') | join(',') }}"
+      values: "{{ state_attr('sensor.solar_verlauf','series') }}"
       color:
         - 255
         - 190
