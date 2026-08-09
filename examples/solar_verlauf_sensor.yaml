@@ -1,0 +1,16 @@
+# --- In configuration.yaml unter  template:  einfuegen ---
+# (Rollender Puffer: alle 5 Min der aktuelle Solarwert, letzte 12 Werte = 1 Std.)
+template:
+  - trigger:
+      - platform: time_pattern
+        minutes: "/5"
+    sensor:
+      - name: "Solar Verlauf"
+        unique_id: solar_verlauf
+        unit_of_measurement: "W"
+        state: "{{ states('sensor.solar_leistung_watt') | float(0) | round(0) }}"
+        attributes:
+          series: >-
+            {% set prev = state_attr('sensor.solar_verlauf','series') or [] %}
+            {% set cur = states('sensor.solar_leistung_watt') | float(0) | round(0) | int %}
+            {{ (prev + [cur])[-12:] }}

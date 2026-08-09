@@ -1,0 +1,23 @@
+alias: AWTRIX NG - Solar Verlauf Graph
+description: "Zeigt den Solar-Verlauf (letzte Stunde) als Balkendiagramm auf AWTRIX NG."
+triggers:
+  - trigger: state
+    entity_id: sensor.solar_verlauf
+conditions:
+  - condition: template
+    value_template: "{{ (state_attr('sensor.solar_verlauf','series') | default([]) | length) > 0 }}"
+actions:
+  - action: script.awtrix_ng_graph
+    data:
+      prefix: awtrixng
+      topicname: solar
+      charttype: bar
+      values: "{{ state_attr('sensor.solar_verlauf','series') | join(',') }}"
+      color:
+        - 255
+        - 190
+        - 0
+      autoscale: true
+      duration: 8
+      lifetime: 0
+mode: single

@@ -14,7 +14,7 @@ wiederverwendbares HA-Skript mit Eingabefeldern.
 |---|---|---|
 | **new app** | [`awtrix_ng_new_app.yaml`](awtrix_ng_new_app.yaml) | Pushed App anlegen/aktualisieren (Text, Icon, iconMode, Farbe/Palette, Effekt, Scroll-Modus/-Tempo, repeat, Dauer, Lifetime, Fortschritt, sofort anzeigen) |
 | **delete app** | [`awtrix_ng_delete_app.yaml`](awtrix_ng_delete_app.yaml) | Pushed App löschen |
-| **notify** | [`awtrix_ng_notify.yaml`](awtrix_ng_notify.yaml) | Notification senden (hold, stack, blink, Sound, Effekt, Farbe/Rainbow …) |
+| **notify** | [`awtrix_ng_notify.yaml`](awtrix_ng_notify.yaml) | Notification senden (Icon/iconMode, hold, stack, blink, Sound, Effekt, Palette, Scroll-Modus/-Tempo, repeat, Farbe/Rainbow …) |
 | **dismiss notification** | [`awtrix_ng_dismiss_notification.yaml`](awtrix_ng_dismiss_notification.yaml) | Aktuelle oder benannte Notification verwerfen |
 | **switch app** | [`awtrix_ng_switch_app.yaml`](awtrix_ng_switch_app.yaml) | Zu App springen bzw. `next` / `previous` |
 | **app order** | [`awtrix_ng_app_order.yaml`](awtrix_ng_app_order.yaml) | App-Reihenfolge & deaktivierte Apps setzen |
@@ -69,6 +69,26 @@ MQTT die Geräte-`ip`.)
 den **ganzen** Befehl scheitern. Deshalb sind optionale Felder in den Skripten
 konditional aufgebaut. Effekt-/Palettennamen und verfügbare Sounds sind
 geräteabhängig (siehe `GET /api/v1/capabilities` bzw. das Dateisystem der Uhr).
+
+## Beispiele
+
+Fertige Anwendungen im Ordner [`examples/`](examples):
+
+| Beispiel | Dateien | Was es macht |
+|---|---|---|
+| **Solar-Verlauf** | [`solar_verlauf_sensor.yaml`](examples/solar_verlauf_sensor.yaml) + [`solar_verlauf_automation.yaml`](examples/solar_verlauf_automation.yaml) | Zeigt den Verlauf der Solarleistung (letzte Stunde) als **Balkendiagramm** über `awtrix ng - graph`. |
+
+**Solar-Verlauf – Einrichtung:**
+1. Inhalt von `solar_verlauf_sensor.yaml` in die `configuration.yaml` unter
+   `template:` einfügen (rollender Puffer, alle 5 Min ein Wert, letzte 12 =
+   1 Stunde) → HA neu starten / Template-Entitäten neu laden. Ergibt
+   `sensor.solar_verlauf` mit Attribut `series`.
+2. `solar_verlauf_automation.yaml` als Automation importieren – sie schickt die
+   Reihe bei jeder Aktualisierung an das Graph-Skript.
+
+> Anpassbar: `sensor.solar_leistung_watt` durch deinen Sensor ersetzen, `[-12:]`
+> bzw. `minutes: "/5"` für anderen Zeitraum, `charttype: line` für Linie, `color`
+> für die Balkenfarbe.
 
 ## Firmware-Update (HTTP, kein MQTT)
 
