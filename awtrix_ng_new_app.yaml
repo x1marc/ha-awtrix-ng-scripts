@@ -13,6 +13,7 @@ sequence:
       showimmediately: "{{ showimmediately | default('') }}"
       textcolor: "{{ textcolor | default([255, 255, 255]) }}"
       progress: "{{ progress | default(0) }}"
+      scrollspeed: "{{ scrollspeed | default(80) }}"
   - action: mqtt.publish
     metadata: {}
     data:
@@ -28,7 +29,7 @@ sequence:
           "durationMs": {{ (duration | int(3)) * 1000 }},
           "lifetimeMs": {{ (lifetime | int(0)) * 1000 }},
           "textCase": "{{ ['inherit','upper','asTyped'][textcase | int(0)] }}",
-          "scroll": {"speed": 80}{% if rainbow %},
+          "scroll": {"speed": {{ scrollspeed | int(80) }}}{% if rainbow %},
           "palette": "Rainbow",
           "textColor": "palette",
           "paletteSpeed": 1{% else %},
@@ -87,6 +88,15 @@ fields:
     name: iconMode
     default: fixed
     description: Icon-Verhalten beim Scrollen (fixed / pushOnce / push)
+  scrollspeed:
+    selector:
+      number:
+        min: 0
+        max: 200
+        step: 5
+    name: scrollSpeed
+    default: 80
+    description: Scroll-Geschwindigkeit (NG-scroll.speed). Standard 80.
   rainbow:
     selector:
       boolean:

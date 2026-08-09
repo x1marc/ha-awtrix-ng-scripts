@@ -35,6 +35,7 @@ script:
           showimmediately: "{{ showimmediately | default('') }}"
           textcolor: "{{ textcolor | default([255, 255, 255]) }}"
           progress: "{{ progress | default(0) }}"
+          scrollspeed: "{{ scrollspeed | default(80) }}"
       - action: mqtt.publish
         metadata: {}
         data:
@@ -50,7 +51,7 @@ script:
               "durationMs": {{ (duration | int(3)) * 1000 }},
               "lifetimeMs": {{ (lifetime | int(0)) * 1000 }},
               "textCase": "{{ ['inherit','upper','asTyped'][textcase | int(0)] }}",
-              "scroll": {"speed": 80}{% if rainbow %},
+              "scroll": {"speed": {{ scrollspeed | int(80) }}}{% if rainbow %},
               "palette": "Rainbow",
               "textColor": "palette",
               "paletteSpeed": 1{% else %},
@@ -109,6 +110,15 @@ script:
         name: iconMode
         default: fixed
         description: Icon-Verhalten beim Scrollen (fixed / pushOnce / push)
+      scrollspeed:
+        selector:
+          number:
+            min: 0
+            max: 200
+            step: 5
+        name: scrollSpeed
+        default: 80
+        description: Scroll-Geschwindigkeit (NG-scroll.speed). Standard 80.
       rainbow:
         selector:
           boolean:
@@ -223,6 +233,7 @@ script:
           effect: "{{ effect | default('') }}"
           sound: "{{ sound | default('') }}"
           iconmode: "{{ iconmode | default('fixed') }}"
+          scrollspeed: "{{ scrollspeed | default(80) }}"
       - action: mqtt.publish
         metadata: {}
         data:
@@ -237,7 +248,8 @@ script:
               "stack": {{ stack | tojson }},
               "hold": {{ hold | tojson }},
               "wakeup": {{ wakeup | tojson }},
-              "textCenter": {{ center | tojson }}{% if icon %},
+              "textCenter": {{ center | tojson }},
+              "scroll": {"speed": {{ scrollspeed | int(80) }}}{% if icon %},
               "icon": "{{icon}}","iconMode":"{{iconmode}}"{% endif %}{% if blink %},
               "textBlinkMs": 500{% endif %}{% if effect %},
               "effect": "{{effect}}"{% endif %}{% if sound %},
@@ -279,6 +291,15 @@ script:
         name: iconMode
         default: fixed
         description: Icon-Verhalten beim Scrollen (fixed / pushOnce / push)
+      scrollspeed:
+        selector:
+          number:
+            min: 0
+            max: 200
+            step: 5
+        name: scrollSpeed
+        default: 80
+        description: Scroll-Geschwindigkeit (NG-scroll.speed). Standard 80.
       duration:
         selector:
           number:

@@ -15,6 +15,7 @@ sequence:
       effect: "{{ effect | default('') }}"
       sound: "{{ sound | default('') }}"
       iconmode: "{{ iconmode | default('fixed') }}"
+      scrollspeed: "{{ scrollspeed | default(80) }}"
   - action: mqtt.publish
     metadata: {}
     data:
@@ -29,7 +30,8 @@ sequence:
           "stack": {{ stack | tojson }},
           "hold": {{ hold | tojson }},
           "wakeup": {{ wakeup | tojson }},
-          "textCenter": {{ center | tojson }}{% if icon %},
+          "textCenter": {{ center | tojson }},
+          "scroll": {"speed": {{ scrollspeed | int(80) }}}{% if icon %},
           "icon": "{{icon}}","iconMode":"{{iconmode}}"{% endif %}{% if blink %},
           "textBlinkMs": 500{% endif %}{% if effect %},
           "effect": "{{effect}}"{% endif %}{% if sound %},
@@ -71,6 +73,15 @@ fields:
     name: iconMode
     default: fixed
     description: Icon-Verhalten beim Scrollen (fixed / pushOnce / push)
+  scrollspeed:
+    selector:
+      number:
+        min: 0
+        max: 200
+        step: 5
+    name: scrollSpeed
+    default: 80
+    description: Scroll-Geschwindigkeit (NG-scroll.speed). Standard 80.
   duration:
     selector:
       number:
