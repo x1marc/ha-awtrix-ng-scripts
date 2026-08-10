@@ -52,18 +52,21 @@ fields:
       text:
     name: prefix
     default: "awtrixng"
-    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
+    description: >-
+      MQTT-Prefix deiner Uhr. Steht in der AWTRIX-Weboberflaeche unter
+      Settings -> MQTT ("Prefix"). Der Standard "awtrixng" passt fuer die
+      meisten - nur aendern, wenn deine Uhr einen anderen Prefix nutzt.
   text:
     selector:
       text:
     name: text
     required: true
-    description: Anzuzeigender Text
+    description: Der Benachrichtigungstext, z. B. "Post da!". Scrollt bei Bedarf. (Pflicht)
   icon:
     selector:
       text:
     name: icon
-    description: Icon-ID (optional)
+    description: Icon-Nummer (optional), muss auf der Uhr liegen. Leer = kein Icon.
   iconmode:
     selector:
       select:
@@ -76,7 +79,9 @@ fields:
             value: push
     name: iconMode
     default: fixed
-    description: Icon-Verhalten beim Scrollen (fixed / pushOnce / push)
+    description: >-
+      Wie sich das Icon verhaelt, wenn Text scrollt: fest (bleibt stehen),
+      einmal wegschieben, oder mitscrollen.
   scrollspeed:
     selector:
       number:
@@ -85,7 +90,7 @@ fields:
         step: 5
     name: scrollSpeed
     default: 80
-    description: Scroll-Geschwindigkeit (NG-scroll.speed). Standard 80.
+    description: Wie schnell langer Text scrollt (Standard 80; kleiner = langsamer).
   duration:
     selector:
       number:
@@ -94,43 +99,43 @@ fields:
         step: 1
     name: duration
     default: 7
-    description: Anzeigedauer in Sekunden (bei hold=true ignoriert)
+    description: Wie lange die Meldung angezeigt wird (Sekunden). Bei "halten" = an ohne Wirkung.
   hold:
     selector:
       boolean:
     name: hold
     default: false
-    description: Bis zum manuellen Verwerfen halten
+    description: An = Meldung bleibt stehen, bis du sie am Geraet/per Skript wegwischst.
   stack:
     selector:
       boolean:
     name: stack
     default: true
-    description: In Warteschlange stapeln (true) oder aktuelle ersetzen (false)
+    description: An = einreihen (nacheinander). Aus = laufende Meldung sofort ersetzen.
   wakeup:
     selector:
       boolean:
     name: wakeup
     default: false
-    description: Display bei Bedarf einschalten
+    description: An = schaltet das Display ein, falls es gerade aus ist.
   center:
     selector:
       boolean:
     name: center
     default: false
-    description: Text zentrieren (wenn er passt)
+    description: An = kurzer Text wird mittig angezeigt.
   blink:
     selector:
       boolean:
     name: blink
     default: false
-    description: Text blinken lassen
+    description: An = der Text blinkt.
   rainbow:
     selector:
       boolean:
     name: rainbow
     default: false
-    description: Regenbogen-Text (via Palette "Rainbow")
+    description: Text in Regenbogenfarben (an/aus).
   textcolor:
     selector:
       color_rgb:
@@ -139,7 +144,7 @@ fields:
       - 255
       - 255
       - 255
-    description: Textfarbe (bei rainbow ignoriert)
+    description: Textfarbe (Farbwaehler). Wird bei Rainbow/Palette ignoriert.
   effect:
     selector:
       select:
@@ -191,7 +196,7 @@ fields:
     selector:
       text:
     name: sound
-    description: Melodie-Dateiname (optional), muss auf dem Gerät liegen
+    description: Ton beim Anzeigen (optional) - Name einer Melodie, die auf der Uhr gespeichert ist.
   palette:
     selector:
       select:
@@ -216,7 +221,9 @@ fields:
             value: Heat
     name: palette
     default: none
-    description: Farbverlauf-Palette fuer den Text (ueberschreibt die Farbe).
+    description: >-
+      Faerbt den Text als Farbverlauf (z. B. Rainbow). "keine Palette" =
+      normale Textfarbe (siehe Feld "textcolor").
   scrollmode:
     selector:
       select:
@@ -233,7 +240,9 @@ fields:
             value: bounce
     name: scrollMode
     default: keep
-    description: Scroll-Modus des Textes
+    description: >-
+      Wie der Text laeuft: Standard (Uhr entscheidet), static (kein Scrollen),
+      wrap/loop/bounce.
   repeat:
     selector:
       number:
@@ -242,6 +251,6 @@ fields:
         step: 1
     name: repeat
     default: 0
-    description: Wie oft der Text durchlaeuft (0 = aus, nutzt Anzeigedauer)
+    description: Wie oft langer Text komplett durchlaeuft, bevor er verschwindet. 0 = stattdessen Anzeigedauer nutzen.
 mode: parallel
 max: 10

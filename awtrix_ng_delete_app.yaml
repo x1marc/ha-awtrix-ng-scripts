@@ -19,12 +19,15 @@ fields:
       text:
     name: prefix
     default: "awtrixng"
-    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
+    description: >-
+      MQTT-Prefix deiner Uhr. Steht in der AWTRIX-Weboberflaeche unter
+      Settings -> MQTT ("Prefix"). Der Standard "awtrixng" passt fuer die
+      meisten - nur aendern, wenn deine Uhr einen anderen Prefix nutzt.
   topicname:
     selector:
       text:
     name: topicname
     required: true
-    description: Name der zu löschenden App
+    description: Name der App, die geloescht werden soll (derselbe Name wie beim Anlegen). (Pflicht)
 mode: parallel
 max: 10

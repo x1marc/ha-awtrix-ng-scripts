@@ -62,25 +62,36 @@ fields:
       text:
     name: prefix
     default: "awtrixng"
-    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
+    description: >-
+      MQTT-Prefix deiner Uhr. Steht in der AWTRIX-Weboberflaeche unter
+      Settings -> MQTT ("Prefix"). Der Standard "awtrixng" passt fuer die
+      meisten - nur aendern, wenn deine Uhr einen anderen Prefix nutzt.
   topicname:
     selector:
       text: null
     name: topicname
     required: true
-    description: Name der App (ein Topic pro App). Nur A-Z a-z 0-9 _ - (max. 32)
+    description: >-
+      App-Name auf der Uhr, frei waehlbar (z. B. "wetter" oder "power").
+      WICHTIG: pro App einen EIGENEN Namen - gleiche Namen ueberschreiben sich.
+      Nur Buchstaben/Zahlen/_/-, max. 32 Zeichen. (Pflicht)
   text:
     selector:
       text: null
     name: text
     required: true
-    description: Anzuzeigender Text
+    description: >-
+      Der anzuzeigende Text, z. B. "21.5 C". Zu lang fuers Display? Er scrollt
+      automatisch. (Pflicht)
   icon:
     selector:
       text:
     name: icon
     required: true
-    description: Icon-ID, muss auf dem AWTRIX-Dateisystem vorhanden sein
+    description: >-
+      Nummer eines Icons, das auf der Uhr gespeichert ist (z. B. "53384").
+      Icons verwaltest du in der AWTRIX-Weboberflaeche (Bereich "Icons");
+      Nummern findest du auf developer.lametric.com/icons. Leer = kein Icon.
   iconmode:
     selector:
       select:
@@ -93,7 +104,9 @@ fields:
             value: push
     name: iconMode
     default: fixed
-    description: Icon-Verhalten beim Scrollen (fixed / pushOnce / push)
+    description: >-
+      Wie sich das Icon verhaelt, wenn Text scrollt: fest (bleibt stehen),
+      einmal wegschieben, oder mitscrollen.
   scrollspeed:
     selector:
       number:
@@ -102,7 +115,7 @@ fields:
         step: 5
     name: scrollSpeed
     default: 80
-    description: Scroll-Geschwindigkeit (NG-scroll.speed). Standard 80.
+    description: Wie schnell langer Text scrollt (Standard 80; kleiner = langsamer).
   effect:
     selector:
       select:
@@ -149,7 +162,7 @@ fields:
             value: ColorWaves
     name: effect
     default: none
-    description: Hintergrundeffekt (NG). "kein Effekt" = keiner.
+    description: Optischer Hintergrund-Effekt hinter dem Text. "kein Effekt" = normaler Hintergrund.
   palette:
     selector:
       select:
@@ -174,7 +187,9 @@ fields:
             value: Heat
     name: palette
     default: none
-    description: Farbverlauf-Palette fuer den Text (ueberschreibt die Farbe).
+    description: >-
+      Faerbt den Text als Farbverlauf (z. B. Rainbow). "keine Palette" =
+      normale Textfarbe (siehe Feld "textcolor").
   scrollmode:
     selector:
       select:
@@ -191,7 +206,9 @@ fields:
             value: bounce
     name: scrollMode
     default: keep
-    description: Scroll-Modus des Textes
+    description: >-
+      Wie der Text laeuft: Standard (Uhr entscheidet), static (kein Scrollen),
+      wrap/loop/bounce.
   repeat:
     selector:
       number:
@@ -200,14 +217,14 @@ fields:
         step: 1
     name: repeat
     default: 0
-    description: Wie oft der Text durchlaeuft (0 = aus, nutzt Anzeigedauer)
+    description: Wie oft langer Text komplett durchlaeuft, bevor er verschwindet. 0 = stattdessen Anzeigedauer nutzen.
   rainbow:
     selector:
       boolean:
     name: rainbow
     default: false
     required: true
-    description: Regenbogen-Text (NG - via Palette "Rainbow") ja/nein
+    description: Text in Regenbogenfarben (an/aus). Entspricht Palette "Rainbow".
   lifetime:
     selector:
       number:
@@ -216,7 +233,7 @@ fields:
         step: 1
     name: lifetime
     default: 0
-    description: App nach X Sekunden verwerfen - 0 = nie
+    description: Nach wie vielen Sekunden die App von selbst verschwindet. 0 = bleibt dauerhaft.
   duration:
     selector:
       number:
@@ -225,7 +242,7 @@ fields:
         step: 1
     name: duration
     default: 3
-    description: Anzeigedauer in Sekunden - Standard 3
+    description: Wie lange (Sekunden) die App pro Durchlauf im App-Wechsel sichtbar ist. Standard 3.
   textcase:
     selector:
       number:
@@ -235,14 +252,14 @@ fields:
     name: textCase
     default: 0
     description: >-
-      0 = global (inherit), 1 = Großbuchstaben (upper), 2 = wie gesendet
-      (asTyped) - Standard 0
+      Gross-/Kleinschreibung: 0 = wie global eingestellt, 1 = ALLES GROSS,
+      2 = genau wie eingegeben.
   showimmediately:
     selector:
       boolean:
     name: showImmediately
     required: false
-    description: Sofort anzeigen (springt in der App-Reihenfolge vor) - Standard false
+    description: An = die Uhr springt sofort zu dieser App (statt auf den App-Wechsel zu warten).
   textcolor:
     selector:
       color_rgb:
@@ -252,7 +269,7 @@ fields:
       - 255
       - 255
     required: false
-    description: Textfarbe (wird bei rainbow ignoriert)
+    description: Textfarbe (Farbwaehler). Wird ignoriert, wenn Rainbow/Palette aktiv ist.
   progress:
     selector:
       number:
@@ -260,7 +277,7 @@ fields:
         max: 99
         step: 1
     name: progress
-    description: Fortschrittsbalken 0-99 (0 = kein Balken)
+    description: Zeigt zusaetzlich einen Fortschrittsbalken (0-99). 0 = kein Balken.
     default: 0
 mode: parallel
 max: 10

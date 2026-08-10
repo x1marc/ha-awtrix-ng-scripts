@@ -46,13 +46,16 @@ fields:
       text:
     name: prefix
     default: "awtrixng"
-    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
+    description: >-
+      MQTT-Prefix deiner Uhr. Steht in der AWTRIX-Weboberflaeche unter
+      Settings -> MQTT ("Prefix"). Der Standard "awtrixng" passt fuer die
+      meisten - nur aendern, wenn deine Uhr einen anderen Prefix nutzt.
   topicname:
     selector:
       text:
     name: topicname
     default: graph
-    description: App-Name (Topic). Nur A-Z a-z 0-9 _ -
+    description: App-Name auf der Uhr (frei waehlbar, eindeutig pro Graph), z. B. "solar".
   charttype:
     selector:
       select:
@@ -65,12 +68,15 @@ fields:
             value: progress
     name: charttype
     default: bar
-    description: Diagramm-Typ
+    description: Balken, Linie oder ein einzelner Fortschrittsbalken.
   values:
     selector:
       text:
     name: values
-    description: 'Werte fuer Balken/Linie, kommagetrennt (max. 16), z. B. "3,5,8,4,9"'
+    description: >-
+      Die Zahlenreihe fuers Diagramm, mit Komma getrennt (max. 16 Werte),
+      z. B. "3,5,8,4,9". (Bei Typ "Fortschritt" wird stattdessen das Feld
+      "progress" genutzt.)
   progress:
     selector:
       number:
@@ -79,17 +85,17 @@ fields:
         step: 1
     name: progress
     default: 0
-    description: Fortschritt 0-100 (nur bei Typ "Fortschritt")
+    description: Fuellstand 0-100 (nur bei Typ "Fortschritt").
   text:
     selector:
       text:
     name: text
-    description: Optionaler Text neben dem Diagramm
+    description: Optionaler kurzer Text, der mit angezeigt wird.
   icon:
     selector:
       text:
     name: icon
-    description: Optionale Icon-ID
+    description: Optionale Icon-Nummer (muss auf der Uhr liegen).
   color:
     selector:
       color_rgb:
@@ -98,13 +104,13 @@ fields:
       - 0
       - 255
       - 0
-    description: Diagramm-/Balkenfarbe
+    description: Farbe der Balken/Linie (Farbwaehler).
   autoscale:
     selector:
       boolean:
     name: autoscale
     default: true
-    description: Automatisch skalieren (nur Balken/Linie)
+    description: An = Diagramm passt sich automatisch an den groessten Wert an (empfohlen).
   duration:
     selector:
       number:
@@ -113,7 +119,7 @@ fields:
         step: 1
     name: duration
     default: 6
-    description: Anzeigedauer in Sekunden
+    description: Wie lange das Diagramm pro Durchlauf sichtbar ist (Sekunden).
   lifetime:
     selector:
       number:
@@ -122,6 +128,6 @@ fields:
         step: 1
     name: lifetime
     default: 0
-    description: App nach X Sekunden verwerfen - 0 = nie
+    description: Nach wie vielen Sekunden die App verschwindet. 0 = bleibt dauerhaft.
 mode: parallel
 max: 10

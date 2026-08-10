@@ -23,7 +23,10 @@ fields:
       text:
     name: prefix
     default: "awtrixng"
-    description: MQTT-Prefix deiner AWTRIX-NG-Uhr (z. B. awtrixng)
+    description: >-
+      MQTT-Prefix deiner Uhr. Steht in der AWTRIX-Weboberflaeche unter
+      Settings -> MQTT ("Prefix"). Der Standard "awtrixng" passt fuer die
+      meisten - nur aendern, wenn deine Uhr einen anderen Prefix nutzt.
   autobrightness:
     selector:
       boolean:
