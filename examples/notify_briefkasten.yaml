@@ -1,0 +1,21 @@
+# Beispiel: Post-Benachrichtigung mit Ton
+# So einbinden: Home Assistant -> Einstellungen -> Automationen & Szenen ->
+#   Automation erstellen -> oben rechts (drei Punkte) -> "In YAML bearbeiten" ->
+#   diesen Inhalt einfuegen -> speichern.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng'). Entitaeten wie
+#   sensor.* / binary_sensor.* sind Platzhalter -> durch deine eigenen ersetzen.
+
+alias: Post-Benachrichtigung auf AWTRIX NG
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.briefkasten
+    to: "on"
+actions:
+  - action: script.awtrix_ng_notify
+    data:
+      text: "Post da!"
+      icon: "1242"
+      sound: "beep"
+      textcolor: [0, 255, 0]
+      duration: 8
+mode: single

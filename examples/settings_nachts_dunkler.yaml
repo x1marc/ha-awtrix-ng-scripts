@@ -1,0 +1,19 @@
+# Beispiel: Abends dunkler, morgens hell
+# So einbinden: Home Assistant -> Einstellungen -> Automationen & Szenen ->
+#   Automation erstellen -> oben rechts (drei Punkte) -> "In YAML bearbeiten" ->
+#   diesen Inhalt einfuegen -> speichern.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng'). Entitaeten wie
+#   sensor.* / binary_sensor.* sind Platzhalter -> durch deine eigenen ersetzen.
+
+alias: AWTRIX nachts dunkler
+triggers:
+  - trigger: sun
+    event: sunset
+  - trigger: sun
+    event: sunrise
+actions:
+  - action: script.awtrix_ng_settings
+    data:
+      autobrightness: false
+      brightness: "{{ 30 if trigger.event == 'sunset' else 150 }}"
+mode: single

@@ -11,6 +11,11 @@ um Text, Icons, Farben, Töne oder Diagramme auf die Uhr zu bringen.
 > (Alexa-Timer, Wetter-Overlay) siehe das Repo
 > [ha-blueprints](https://github.com/x1marc/ha-blueprints).
 
+> 💡 **Willst du nur einen Sensorwert anzeigen?** Dann brauchst du nicht einmal
+> ein Skript – nimm den Blueprint
+> [Sensor → AWTRIX NG App](https://github.com/x1marc/ha-blueprints/blob/main/sensor_to_awtrix_ng_app.yaml):
+> importieren, Sensor wählen, App benennen, fertig.
+
 ---
 
 ## Inhalt
@@ -675,7 +680,12 @@ Gerät und hier bewusst nicht im Repo.)
 
 ## Beispiele
 
-Fertige Anwendungen im Ordner **[`examples/`](examples)**:
+**Jedes Beispiel aus der [Skript-Referenz](#skript-referenz-jedes-feld-erklärt)
+liegt auch als fertige Datei im Ordner [`examples/`](examples)** zum Kopieren
+bzw. Importieren – oben in jeder Datei steht kurz, wie man sie einbindet
+(Automation, Aktion oder Dashboard-Karte).
+
+Ein größeres, mehrteiliges Beispiel:
 
 | Beispiel | Dateien | Was es macht |
 |---|---|---|
@@ -783,3 +793,15 @@ Was die Skripte intern senden – nützlich zum Debuggen oder für eigene Automa
 | Neustart | `<prefix>/cmd/device/reboot` | *(leer)* |
 
 Offizielle Doku: <https://blueforcer.github.io/awtrix-ng/>
+
+---
+
+## Mitmachen & Lizenz
+
+- **Fehler gefunden oder Skript-Wunsch?** Öffne ein
+  [Issue](https://github.com/x1marc/ha-awtrix-ng-scripts/issues/new/choose) –
+  es gibt fertige Vorlagen (Fehler melden / Skript-Wunsch).
+- **Änderungen** stehen im [CHANGELOG.md](CHANGELOG.md).
+- Jeder Push wird per **GitHub-Action** automatisch auf YAML-Fehler geprüft
+  (`tools/validate.py` – lokal ausführbar mit `python tools/validate.py`).
+- Lizenz: [MIT](LICENSE).

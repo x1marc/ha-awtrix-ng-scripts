@@ -1,0 +1,16 @@
+# Beispiel: PV-App nachts entfernen
+# So einbinden: Home Assistant -> Einstellungen -> Automationen & Szenen ->
+#   Automation erstellen -> oben rechts (drei Punkte) -> "In YAML bearbeiten" ->
+#   diesen Inhalt einfuegen -> speichern.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng'). Entitaeten wie
+#   sensor.* / binary_sensor.* sind Platzhalter -> durch deine eigenen ersetzen.
+
+alias: PV-App nachts entfernen
+triggers:
+  - trigger: time
+    at: "23:30:00"
+actions:
+  - action: script.awtrix_ng_delete_app
+    data:
+      topicname: TagesPV_Ertrag
+mode: single

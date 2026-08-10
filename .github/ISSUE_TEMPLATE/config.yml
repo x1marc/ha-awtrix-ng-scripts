@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 AWTRIX-NG-Dokumentation
+    url: https://blueforcer.github.io/awtrix-ng/
+    about: Offizielle Doku zu Befehlen, Effekten, Paletten und Scripting.
+  - name: 💬 Home-Assistant-Community
+    url: https://community.home-assistant.io/
+    about: Allgemeine Fragen rund um Home Assistant (nicht spezifisch für diese Skripte).

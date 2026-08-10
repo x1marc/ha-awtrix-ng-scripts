@@ -1,0 +1,13 @@
+# Beispiel (Dashboard-Karte): Radio per Dashboard-Knopf starten
+# So einbinden: Dashboard bearbeiten -> Karte hinzufuegen -> "Manuell" (YAML) ->
+#   diesen Inhalt einfuegen. Ein zweiter Knopf mit mode: stop haelt es an.
+
+type: button
+name: SWR3 an
+tap_action:
+  action: perform-action
+  perform_action: script.awtrix_ng_radio
+  data:
+    mode: play
+    by: station
+    value: "SWR3"

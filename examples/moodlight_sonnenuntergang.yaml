@@ -1,0 +1,18 @@
+# Beispiel: Warmes Stimmungslicht zum Sonnenuntergang
+# So einbinden: Home Assistant -> Einstellungen -> Automationen & Szenen ->
+#   Automation erstellen -> oben rechts (drei Punkte) -> "In YAML bearbeiten" ->
+#   diesen Inhalt einfuegen -> speichern.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng'). Entitaeten wie
+#   sensor.* / binary_sensor.* sind Platzhalter -> durch deine eigenen ersetzen.
+
+alias: Moodlight zum Sonnenuntergang
+triggers:
+  - trigger: sun
+    event: sunset
+actions:
+  - action: script.awtrix_ng_moodlight
+    data:
+      mode: "on"
+      kelvin: 2700
+      brightness: 80
+mode: single

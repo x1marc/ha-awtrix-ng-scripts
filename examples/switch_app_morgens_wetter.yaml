@@ -1,0 +1,17 @@
+# Beispiel: Morgens die Wetter-App zeigen
+# So einbinden: Home Assistant -> Einstellungen -> Automationen & Szenen ->
+#   Automation erstellen -> oben rechts (drei Punkte) -> "In YAML bearbeiten" ->
+#   diesen Inhalt einfuegen -> speichern.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng'). Entitaeten wie
+#   sensor.* / binary_sensor.* sind Platzhalter -> durch deine eigenen ersetzen.
+
+alias: Morgens Wetter anzeigen
+triggers:
+  - trigger: time
+    at: "06:45:00"
+actions:
+  - action: script.awtrix_ng_switch_app
+    data:
+      target: weather
+      fast: true
+mode: single

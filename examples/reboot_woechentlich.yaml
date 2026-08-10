@@ -1,0 +1,18 @@
+# Beispiel: Uhr jeden Sonntag 04:00 neu starten
+# So einbinden: Home Assistant -> Einstellungen -> Automationen & Szenen ->
+#   Automation erstellen -> oben rechts (drei Punkte) -> "In YAML bearbeiten" ->
+#   diesen Inhalt einfuegen -> speichern.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng'). Entitaeten wie
+#   sensor.* / binary_sensor.* sind Platzhalter -> durch deine eigenen ersetzen.
+
+alias: AWTRIX woechentlich neu starten
+triggers:
+  - trigger: time
+    at: "04:00:00"
+conditions:
+  - condition: time
+    weekday:
+      - sun
+actions:
+  - action: script.awtrix_ng_reboot
+mode: single

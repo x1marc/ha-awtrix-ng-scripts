@@ -1,0 +1,51 @@
+name: 🐞 Fehler melden
+description: Ein Skript funktioniert nicht wie erwartet
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke für die Meldung! Bitte fülle die Felder aus – je konkreter, desto
+        schneller lässt sich das Problem finden.
+  - type: input
+    id: script
+    attributes:
+      label: Welches Skript?
+      placeholder: "z. B. awtrix_ng_new_app"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: Was passiert – und was hast du erwartet?
+      placeholder: "Beschreibe kurz das Problem und das erwartete Verhalten."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Schritte zum Nachstellen
+      placeholder: |
+        1. Skript … mit Feldern … aufgerufen
+        2. …
+  - type: input
+    id: prefix
+    attributes:
+      label: MQTT-Prefix deiner Uhr
+      placeholder: "awtrixng"
+  - type: input
+    id: firmware
+    attributes:
+      label: AWTRIX-NG-Firmware-Version
+      placeholder: "z. B. 0.x.y"
+  - type: input
+    id: ha
+    attributes:
+      label: Home-Assistant-Version
+      placeholder: "z. B. 2026.8"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Fehlermeldung / relevanter Log
+      description: Aus der Skript-Ausführung bzw. den HA-Protokollen.
+      render: shell

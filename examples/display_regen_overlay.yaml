@@ -1,0 +1,16 @@
+# Beispiel: Regen-Overlay bei Regen
+# So einbinden: Home Assistant -> Einstellungen -> Automationen & Szenen ->
+#   Automation erstellen -> oben rechts (drei Punkte) -> "In YAML bearbeiten" ->
+#   diesen Inhalt einfuegen -> speichern.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng'). Entitaeten wie
+#   sensor.* / binary_sensor.* sind Platzhalter -> durch deine eigenen ersetzen.
+
+alias: Regen-Overlay bei Regen
+triggers:
+  - trigger: state
+    entity_id: weather.home
+actions:
+  - action: script.awtrix_ng_display
+    data:
+      overlay: "{{ 'rain' if is_state('weather.home','rainy') else 'off' }}"
+mode: single

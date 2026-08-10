@@ -1,0 +1,9 @@
+# Beispiel (einmalige Aktion): App-Reihenfolge festlegen
+# So ausfuehren: Home Assistant -> Entwicklerwerkzeuge -> Aktionen ->
+#   "In YAML-Modus wechseln" -> diesen Inhalt einfuegen -> Aktion ausfuehren.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng').
+
+action: script.awtrix_ng_app_order
+data:
+  order: "Time, weather, TagesPV_Ertrag"
+  disabled: "Battery"

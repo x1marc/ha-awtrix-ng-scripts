@@ -1,0 +1,23 @@
+# Beispiel: Tages-PV-Ertrag alle 27 Minuten
+# So einbinden: Home Assistant -> Einstellungen -> Automationen & Szenen ->
+#   Automation erstellen -> oben rechts (drei Punkte) -> "In YAML bearbeiten" ->
+#   diesen Inhalt einfuegen -> speichern.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng'). Entitaeten wie
+#   sensor.* / binary_sensor.* sind Platzhalter -> durch deine eigenen ersetzen.
+
+alias: Tages-PV-Ertrag auf AWTRIX NG
+description: Aktualisiert den Balkonkraftwerk-Tagesertrag alle 27 Minuten.
+triggers:
+  - trigger: time_pattern
+    minutes: /27
+actions:
+  - action: script.awtrix_ng_new_app
+    data:
+      topicname: TagesPV_Ertrag
+      text: "{{ states('sensor.balkonkraftwerk_kwh_tag') | round(1) }} kWh"
+      icon: "55972"
+      iconmode: push
+      textcolor: [255, 255, 255]
+      duration: 15
+      lifetime: 30
+mode: single

@@ -1,0 +1,18 @@
+# Beispiel: Weck-Ton um 07:00
+# So einbinden: Home Assistant -> Einstellungen -> Automationen & Szenen ->
+#   Automation erstellen -> oben rechts (drei Punkte) -> "In YAML bearbeiten" ->
+#   diesen Inhalt einfuegen -> speichern.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng'). Entitaeten wie
+#   sensor.* / binary_sensor.* sind Platzhalter -> durch deine eigenen ersetzen.
+
+alias: Wecker-Ton auf AWTRIX NG
+triggers:
+  - trigger: time
+    at: "07:00:00"
+actions:
+  - action: script.awtrix_ng_sound
+    data:
+      mode: play
+      type: builtin
+      value: "beep"
+mode: single

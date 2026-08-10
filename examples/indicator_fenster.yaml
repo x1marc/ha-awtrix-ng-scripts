@@ -1,0 +1,27 @@
+# Beispiel: LED 1 rot bei offenem Fenster
+# So einbinden: Home Assistant -> Einstellungen -> Automationen & Szenen ->
+#   Automation erstellen -> oben rechts (drei Punkte) -> "In YAML bearbeiten" ->
+#   diesen Inhalt einfuegen -> speichern.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng'). Entitaeten wie
+#   sensor.* / binary_sensor.* sind Platzhalter -> durch deine eigenen ersetzen.
+
+alias: Fenster-Status als LED
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.fenster_wohnzimmer
+actions:
+  - choose:
+      - conditions: "{{ is_state('binary_sensor.fenster_wohnzimmer','on') }}"
+        sequence:
+          - action: script.awtrix_ng_indicator
+            data:
+              id: 1
+              mode: set
+              color: [255, 0, 0]
+              blink: 500
+    default:
+      - action: script.awtrix_ng_indicator
+        data:
+          id: 1
+          mode: clear
+mode: single

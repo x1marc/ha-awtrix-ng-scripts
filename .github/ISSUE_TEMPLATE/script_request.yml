@@ -1,0 +1,21 @@
+name: 💡 Skript-Wunsch
+description: Ein neues Skript oder eine Erweiterung vorschlagen
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Was soll das Skript tun?
+      placeholder: "Beschreibe die gewünschte Funktion und wofür du sie brauchst."
+    validations:
+      required: true
+  - type: input
+    id: command
+    attributes:
+      label: Zugehöriger AWTRIX-NG-Befehl/Topic (falls bekannt)
+      placeholder: "<prefix>/cmd/…"
+  - type: textarea
+    id: extra
+    attributes:
+      label: Weitere Hinweise
+      placeholder: "Beispiel-Payload, Link zur Doku, Sonderfälle …"

@@ -1,0 +1,15 @@
+# Beispiel: Einblendung wegwischen, wenn niemand da
+# So einbinden: Home Assistant -> Einstellungen -> Automationen & Szenen ->
+#   Automation erstellen -> oben rechts (drei Punkte) -> "In YAML bearbeiten" ->
+#   diesen Inhalt einfuegen -> speichern.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng'). Entitaeten wie
+#   sensor.* / binary_sensor.* sind Platzhalter -> durch deine eigenen ersetzen.
+
+alias: Einblendung wegwischen, wenn niemand da
+triggers:
+  - trigger: state
+    entity_id: group.family
+    to: not_home
+actions:
+  - action: script.awtrix_ng_dismiss_notification
+mode: single

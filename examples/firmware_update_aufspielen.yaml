@@ -1,0 +1,9 @@
+# Beispiel (einmalige Aktion): Firmware .bin aufspielen (Setup: siehe README)
+# So ausfuehren: Home Assistant -> Entwicklerwerkzeuge -> Aktionen ->
+#   "In YAML-Modus wechseln" -> diesen Inhalt einfuegen -> Aktion ausfuehren.
+# Hinweis: 'prefix' ist weggelassen (Standard 'awtrixng').
+
+action: script.awtrix_ng_firmware_update
+data:
+  ip: "192.168.1.50"
+  file: "/config/firmware-awtrix-ng.bin"
