@@ -204,6 +204,12 @@ actions:
 erwähnt, wenn nötig. **Pflicht** = muss ausgefüllt werden; alles andere ist
 optional und hat einen sinnvollen Standard.
 
+Unter jeder Tabelle steht ein **fertiges Beispiel zum Kopieren**. Der Übersicht
+halber ist `prefix` darin weggelassen (Standard `awtrixng`) – hat deine Uhr einen
+anderen Prefix, ergänze eine Zeile `prefix: deinprefix`. Entitäten wie
+`sensor.balkonkraftwerk_kwh_tag` oder `binary_sensor.briefkasten` sind Platzhalter
+– durch deine eigenen ersetzen.
+
 ### 📝 Text & Apps
 
 #### `new app` — dauerhafte App anlegen/aktualisieren · [`awtrix_ng_new_app.yaml`](awtrix_ng_new_app.yaml)
@@ -229,11 +235,46 @@ App wird aktualisiert (ideal für sich ändernde Werte).
 | `textcolor` | Textfarbe (Farbrad). Ignoriert bei Rainbow/Palette. | Weiß | Nein |
 | `progress` | Zusätzlicher Fortschrittsbalken 0–99. `0` = keiner. | `0` | Nein |
 
+**Beispiel — Tages-PV-Ertrag alle 27 Min aktualisieren** (aus einem
+kWh-Sensor; gleicher `topicname` → App wird jedes Mal überschrieben):
+```yaml
+alias: Tages-PV-Ertrag auf AWTRIX NG
+description: Aktualisiert den Balkonkraftwerk-Tagesertrag alle 27 Minuten.
+triggers:
+  - trigger: time_pattern
+    minutes: /27
+actions:
+  - action: script.awtrix_ng_new_app
+    data:
+      topicname: TagesPV_Ertrag
+      text: "{{ states('sensor.balkonkraftwerk_kwh_tag') | round(1) }} kWh"
+      icon: "55972"
+      iconmode: push
+      textcolor: [255, 255, 255]
+      duration: 15
+      lifetime: 30
+mode: single
+```
+
 #### `delete app` — App löschen · [`awtrix_ng_delete_app.yaml`](awtrix_ng_delete_app.yaml)
 
 | Feld | Was du einträgst | Beispiel | Pflicht? |
 |---|---|---|---|
 | `topicname` | Name der App, die weg soll (wie beim Anlegen). | `wetter` | **Ja** |
+
+**Beispiel — die PV-App nachts entfernen** (tagsüber baut die obige Automation
+sie neu auf):
+```yaml
+alias: PV-App nachts entfernen
+triggers:
+  - trigger: time
+    at: "23:30:00"
+actions:
+  - action: script.awtrix_ng_delete_app
+    data:
+      topicname: TagesPV_Ertrag
+mode: single
+```
 
 #### `notify` — einmalige Einblendung · [`awtrix_ng_notify.yaml`](awtrix_ng_notify.yaml)
 Funkt kurz dazwischen und verschwindet wieder (oder bleibt bei `hold`).
@@ -258,11 +299,43 @@ Funkt kurz dazwischen und verschwindet wieder (oder bleibt bei `hold`).
 | `scrollmode` | Wie der Text läuft. | Standard | Nein |
 | `repeat` | Wie oft langer Text durchläuft. | `0` | Nein |
 
+**Beispiel — Post-Benachrichtigung mit Ton**, wenn der Briefkasten-Sensor
+auslöst:
+```yaml
+alias: Post-Benachrichtigung auf AWTRIX NG
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.briefkasten
+    to: "on"
+actions:
+  - action: script.awtrix_ng_notify
+    data:
+      text: "Post da!"
+      icon: "1242"
+      sound: "beep"
+      textcolor: [0, 255, 0]
+      duration: 8
+mode: single
+```
+
 #### `dismiss notification` — Einblendung wegwischen · [`awtrix_ng_dismiss_notification.yaml`](awtrix_ng_dismiss_notification.yaml)
 
 | Feld | Was du einträgst | Beispiel | Pflicht? |
 |---|---|---|---|
 | `name` | Name einer benannten Notification. **Leer** = aktuelle wegwischen. | *(leer)* | Nein |
+
+**Beispiel — offene Einblendungen wegwischen**, sobald niemand mehr zu Hause ist
+(leeres `name` = aktuelle Meldung):
+```yaml
+alias: Einblendung wegwischen, wenn niemand da
+triggers:
+  - trigger: state
+    entity_id: group.family
+    to: not_home
+actions:
+  - action: script.awtrix_ng_dismiss_notification
+mode: single
+```
 
 #### `switch app` — zu einer App springen · [`awtrix_ng_switch_app.yaml`](awtrix_ng_switch_app.yaml)
 
@@ -271,6 +344,20 @@ Funkt kurz dazwischen und verschwindet wieder (oder bleibt bei `hold`).
 | `target` | App-Name, oder `next` / `previous`. | `wetter` | **Ja** |
 | `fast` | An = sofort umschalten (ohne Animation). | an | Nein |
 
+**Beispiel — morgens automatisch die Wetter-App zeigen:**
+```yaml
+alias: Morgens Wetter anzeigen
+triggers:
+  - trigger: time
+    at: "06:45:00"
+actions:
+  - action: script.awtrix_ng_switch_app
+    data:
+      target: weather
+      fast: true
+mode: single
+```
+
 #### `app order` — Reihenfolge & Deaktivierte · [`awtrix_ng_app_order.yaml`](awtrix_ng_app_order.yaml)
 > ⚠️ Nur die in `order` gelisteten Apps bleiben sichtbar. Namen genau treffen!
 
@@ -278,6 +365,15 @@ Funkt kurz dazwischen und verschwindet wieder (oder bleibt bei `hold`).
 |---|---|---|---|
 | `order` | Reihenfolge, App-Namen mit Komma. | `Time, weather, solar` | Nein |
 | `disabled` | Auszublendende Apps, mit Komma. | `Battery` | Nein |
+
+**Beispiel — Reihenfolge einmalig festlegen** (Entwicklerwerkzeuge → Aktionen,
+kein Trigger nötig):
+```yaml
+action: script.awtrix_ng_app_order
+data:
+  order: "Time, weather, TagesPV_Ertrag"
+  disabled: "Battery"
+```
 
 ### 💡 Anzeige & Licht
 
@@ -288,6 +384,20 @@ Funkt kurz dazwischen und verschwindet wieder (oder bleibt bei `hold`).
 | `power` | Display an / aus / beibehalten. | an | Nein |
 | `overlay` | Wetter-Overlay übers ganze Bild (siehe unten) oder „aus". | rain | Nein |
 
+**Beispiel — Regen-Overlay automatisch** übers Display legen, wenn das Wetter auf
+„regnerisch" steht (sonst aus):
+```yaml
+alias: Regen-Overlay bei Regen
+triggers:
+  - trigger: state
+    entity_id: weather.home
+actions:
+  - action: script.awtrix_ng_display
+    data:
+      overlay: "{{ 'rain' if is_state('weather.home','rainy') else 'off' }}"
+mode: single
+```
+
 #### `moodlight` — Panel als Stimmungslicht · [`awtrix_ng_moodlight.yaml`](awtrix_ng_moodlight.yaml)
 
 | Feld | Was du einträgst | Beispiel | Pflicht? |
@@ -296,6 +406,21 @@ Funkt kurz dazwischen und verschwindet wieder (oder bleibt bei `hold`).
 | `color` | Farbe (ignoriert, wenn `kelvin` > 0). | Warmweiß | Nein |
 | `kelvin` | Farbtemperatur statt Farbe (0 = aus). | `2700` | Nein |
 | `brightness` | Helligkeit 0–255. | `120` | Nein |
+
+**Beispiel — zum Sonnenuntergang warmes Stimmungslicht** einschalten:
+```yaml
+alias: Moodlight zum Sonnenuntergang
+triggers:
+  - trigger: sun
+    event: sunset
+actions:
+  - action: script.awtrix_ng_moodlight
+    data:
+      mode: "on"
+      kelvin: 2700
+      brightness: 80
+mode: single
+```
 
 #### `indicator` — die 3 seitlichen Status-LEDs · [`awtrix_ng_indicator.yaml`](awtrix_ng_indicator.yaml)
 
@@ -307,6 +432,31 @@ Funkt kurz dazwischen und verschwindet wieder (oder bleibt bei `hold`).
 | `blink` | Blink-Tempo in Millisekunden (0 = aus). | `500` | Nein |
 | `fade` | Pulsieren in Millisekunden (0 = aus). | `0` | Nein |
 
+**Beispiel — LED 1 rot blinken lassen, wenn ein Fenster offen ist**, und wieder
+ausschalten, wenn es zu ist:
+```yaml
+alias: Fenster-Status als LED
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.fenster_wohnzimmer
+actions:
+  - choose:
+      - conditions: "{{ is_state('binary_sensor.fenster_wohnzimmer','on') }}"
+        sequence:
+          - action: script.awtrix_ng_indicator
+            data:
+              id: 1
+              mode: set
+              color: [255, 0, 0]
+              blink: 500
+    default:
+      - action: script.awtrix_ng_indicator
+        data:
+          id: 1
+          mode: clear
+mode: single
+```
+
 ### 🔊 Töne
 
 #### `sound` — Melodie/Ton abspielen · [`awtrix_ng_sound.yaml`](awtrix_ng_sound.yaml)
@@ -317,6 +467,21 @@ Funkt kurz dazwischen und verschwindet wieder (oder bleibt bei `hold`).
 | `type` | Quelle: gespeicherte Melodie (`name`), Inline-`rtttl` oder `builtin`. | name | Nein |
 | `value` | Der Datei-/Ton-Name bzw. RTTTL-String. | `beep` | Nein |
 
+**Beispiel — morgens einen kurzen Weck-Ton** abspielen:
+```yaml
+alias: Wecker-Ton auf AWTRIX NG
+triggers:
+  - trigger: time
+    at: "07:00:00"
+actions:
+  - action: script.awtrix_ng_sound
+    data:
+      mode: play
+      type: builtin
+      value: "beep"
+mode: single
+```
+
 #### `radio` — Webradio (falls unterstützt) · [`awtrix_ng_radio.yaml`](awtrix_ng_radio.yaml)
 
 | Feld | Was du einträgst | Beispiel | Pflicht? |
@@ -324,6 +489,20 @@ Funkt kurz dazwischen und verschwindet wieder (oder bleibt bei `hold`).
 | `mode` | abspielen / stoppen. | abspielen | Nein |
 | `by` | Auswahl per Station, Index oder URL. | station | Nein |
 | `value` | Stationsname / Index / Stream-URL. | `SWR3` | Nein |
+
+**Beispiel — Radio per Dashboard-Knopf starten** (ein zweiter Knopf mit
+`mode: stop` hält es an):
+```yaml
+type: button
+name: SWR3 an
+tap_action:
+  action: perform-action
+  perform_action: script.awtrix_ng_radio
+  data:
+    mode: play
+    by: station
+    value: "SWR3"
+```
 
 ### 📊 Diagramme
 
@@ -347,6 +526,25 @@ Zeichnet **fertige Zahlen**, die du übergibst (max. 16). Für einen echten
 
 \* Je nach `charttype`: `values` bei Balken/Linie, `progress` bei Fortschritt.
 
+**Beispiel — Solar-Verlauf als Balken** senden. Die fertige Zahlenreihe kommt aus
+einem Sammel-Sensor (`series`-Attribut, siehe [Beispiele](#beispiele)):
+```yaml
+alias: Solar-Verlauf als Balken
+triggers:
+  - trigger: state
+    entity_id: sensor.solar_verlauf
+actions:
+  - action: script.awtrix_ng_graph
+    data:
+      topicname: solar
+      charttype: bar
+      values: "{{ state_attr('sensor.solar_verlauf','series') }}"
+      color: [255, 190, 0]
+      autoscale: true
+      duration: 8
+mode: single
+```
+
 ### ⚙️ System
 
 #### `settings (brightness)` — Helligkeit · [`awtrix_ng_settings.yaml`](awtrix_ng_settings.yaml)
@@ -356,8 +554,40 @@ Zeichnet **fertige Zahlen**, die du übergibst (max. 16). Für einen echten
 | `autobrightness` | Automatische Helligkeit (Sensor) an/aus. | aus | Nein |
 | `brightness` | Feste Helligkeit 0–255 (wenn Auto aus). | `120` | Nein |
 
+**Beispiel — die Uhr abends dunkler** stellen und morgens wieder hell (ein
+Trigger für Sonnenuntergang, einer für Sonnenaufgang):
+```yaml
+alias: AWTRIX nachts dunkler
+triggers:
+  - trigger: sun
+    event: sunset
+  - trigger: sun
+    event: sunrise
+actions:
+  - action: script.awtrix_ng_settings
+    data:
+      autobrightness: false
+      brightness: "{{ 30 if trigger.event == 'sunset' else 150 }}"
+mode: single
+```
+
 #### `reboot` — Uhr neu starten · [`awtrix_ng_reboot.yaml`](awtrix_ng_reboot.yaml)
 Nur das Feld `prefix`. Startet die Uhr neu.
+
+**Beispiel — die Uhr jeden Sonntag um 04:00 neu starten:**
+```yaml
+alias: AWTRIX wöchentlich neu starten
+triggers:
+  - trigger: time
+    at: "04:00:00"
+conditions:
+  - condition: time
+    weekday:
+      - sun
+actions:
+  - action: script.awtrix_ng_reboot
+mode: single
+```
 
 #### `firmware update` — neue Firmware · [`awtrix_ng_firmware_update.yaml`](awtrix_ng_firmware_update.yaml)
 Sonderfall (kein MQTT) – siehe [eigener Abschnitt](#firmware-update-http-kein-mqtt).
@@ -366,6 +596,15 @@ Sonderfall (kein MQTT) – siehe [eigener Abschnitt](#firmware-update-http-kein-
 |---|---|---|---|
 | `ip` | IP/Host der Uhr. | `192.168.1.50` | **Ja** |
 | `file` | Pfad zur `.bin` auf dem HA-Server. | `/config/firmware-awtrix-ng.bin` | **Ja** |
+
+**Beispiel — Firmware aufspielen** (einmalig, Entwicklerwerkzeuge → Aktionen;
+Voraussetzung: der `shell_command` aus dem [Firmware-Abschnitt](#firmware-update-http-kein-mqtt)):
+```yaml
+action: script.awtrix_ng_firmware_update
+data:
+  ip: "192.168.1.50"
+  file: "/config/firmware-awtrix-ng.bin"
+```
 
 > Bewusst **nicht** enthalten (gefährlich/selten): Factory-Reset,
 > WLAN-/System-Konfiguration, Datei-Upload.
