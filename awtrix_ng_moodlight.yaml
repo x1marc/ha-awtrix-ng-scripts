@@ -49,7 +49,7 @@ fields:
             value: "off"
     name: mode
     default: "on"
-    description: Moodlight ein-/ausschalten
+    description: Stimmungslicht an oder aus.
   color:
     selector:
       color_rgb:
@@ -58,7 +58,7 @@ fields:
       - 255
       - 255
       - 255
-    description: Farbe (wird ignoriert, wenn Kelvin > 0)
+    description: Farbe des Panels (wird ignoriert, wenn Kelvin groesser 0 ist).
   kelvin:
     selector:
       number:
@@ -67,7 +67,7 @@ fields:
         step: 100
     name: kelvin
     default: 0
-    description: Farbtemperatur in Kelvin (0 = Farbe verwenden)
+    description: Weiss-Farbtemperatur in Kelvin statt Farbe (0 = Farbe verwenden).
   brightness:
     selector:
       number:
@@ -76,6 +76,6 @@ fields:
         step: 1
     name: brightness
     default: 120
-    description: Helligkeit 0-255
+    description: Helligkeit 0-255.
 mode: parallel
 max: 10

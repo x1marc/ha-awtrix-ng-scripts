@@ -21,6 +21,7 @@ script:
 
 
 
+
   awtrix_ng_new_app:
     alias: awtrix ng - new app
     sequence:
@@ -631,7 +632,7 @@ script:
         selector:
           text:
         name: name
-        description: Name der Notification (leer = aktuelle verwerfen)
+        description: Name einer benannten Meldung. Leer = die aktuell gezeigte Meldung wegwischen.
     mode: parallel
     max: 10
 
@@ -686,13 +687,13 @@ script:
           text:
         name: target
         required: true
-        description: 'App-Name, oder "next" / "previous"'
+        description: 'Name der App zum Anspringen - oder "next" / "previous" zum Blaettern.'
       fast:
         selector:
           boolean:
         name: fast
         default: true
-        description: Sofort umschalten (true) statt mit Übergangsanimation
+        description: An = sofort umschalten; aus = mit Uebergangsanimation.
     mode: parallel
     max: 10
 
@@ -738,12 +739,14 @@ script:
         selector:
           text:
         name: order
-        description: 'Reihenfolge, kommagetrennt (z. B. "Time, weather, Battery")'
+        description: >-
+          Reihenfolge der Apps als Namen mit Komma, z. B. "Time, weather, solar".
+          ACHTUNG: nur die hier gelisteten Apps bleiben sichtbar - Namen genau treffen.
       disabled:
         selector:
           text:
         name: disabled
-        description: 'Zu deaktivierende Apps, kommagetrennt (optional)'
+        description: Apps, die ausgeblendet werden sollen, mit Komma getrennt (optional).
     mode: parallel
     max: 10
 
@@ -798,7 +801,7 @@ script:
                 value: "off"
         name: power
         default: keep
-        description: Display ein-/ausschalten
+        description: Display anschalten, ausschalten oder unveraendert lassen.
       overlay:
         selector:
           select:
@@ -821,7 +824,9 @@ script:
                 value: frost
         name: overlay
         default: keep
-        description: Wetter-Overlay
+        description: >-
+          Wetter-Effekt ueber das ganze Bild (rain/snow/drizzle/storm/thunder/frost)
+          oder "aus". "beibehalten" laesst das aktuelle Overlay unveraendert.
     mode: parallel
     max: 10
 
@@ -877,7 +882,7 @@ script:
                 value: "off"
         name: mode
         default: "on"
-        description: Moodlight ein-/ausschalten
+        description: Stimmungslicht an oder aus.
       color:
         selector:
           color_rgb:
@@ -886,7 +891,7 @@ script:
           - 255
           - 255
           - 255
-        description: Farbe (wird ignoriert, wenn Kelvin > 0)
+        description: Farbe des Panels (wird ignoriert, wenn Kelvin groesser 0 ist).
       kelvin:
         selector:
           number:
@@ -895,7 +900,7 @@ script:
             step: 100
         name: kelvin
         default: 0
-        description: Farbtemperatur in Kelvin (0 = Farbe verwenden)
+        description: Weiss-Farbtemperatur in Kelvin statt Farbe (0 = Farbe verwenden).
       brightness:
         selector:
           number:
@@ -904,7 +909,7 @@ script:
             step: 1
         name: brightness
         default: 120
-        description: Helligkeit 0-255
+        description: Helligkeit 0-255.
     mode: parallel
     max: 10
 
@@ -962,7 +967,7 @@ script:
         name: id
         default: 1
         required: true
-        description: Indicator 1 (oben), 2 (mitte) oder 3 (unten)
+        description: Welche der drei seitlichen Status-LEDs - 1 (oben), 2 (mitte) oder 3 (unten).
       mode:
         selector:
           select:
@@ -973,7 +978,7 @@ script:
                 value: clear
         name: mode
         default: set
-        description: Setzen oder ausschalten
+        description: Farbe setzen oder die LED ausschalten.
       color:
         selector:
           color_rgb:
@@ -982,7 +987,7 @@ script:
           - 255
           - 0
           - 0
-        description: Farbe der LED
+        description: Farbe der LED (Farbwaehler).
       blink:
         selector:
           number:
@@ -991,7 +996,7 @@ script:
             step: 50
         name: blink
         default: 0
-        description: Blinkintervall in ms (0 = aus)
+        description: Blinken - Intervall in Millisekunden (0 = kein Blinken).
       fade:
         selector:
           number:
@@ -1000,7 +1005,7 @@ script:
             step: 50
         name: fade
         default: 0
-        description: Fade-Intervall in ms (0 = aus)
+        description: Sanftes Pulsieren - Intervall in Millisekunden (0 = aus).
     mode: parallel
     max: 10
 
@@ -1054,7 +1059,7 @@ script:
                 value: stop
         name: mode
         default: play
-        description: Abspielen oder Stoppen
+        description: Sound abspielen oder stoppen.
       type:
         selector:
           select:
@@ -1067,14 +1072,14 @@ script:
                 value: builtin
         name: type
         default: name
-        description: Quelle des Sounds (nur bei "abspielen")
+        description: 'Quelle: gespeicherte Melodie (name), Inline-RTTTL (rtttl) oder eingebauter Ton (builtin).'
       value:
         selector:
           text:
         name: value
         description: >-
-          Dateiname / RTTTL-String / Builtin-Name (z. B. "beep", "r2d2" oder
-          "two:d=4,o=5,b=200:c,e")
+          Melodie-Dateiname, RTTTL-String oder Builtin-Name - passend zur Quelle oben
+          (z. B. "beep", "r2d2" oder "two:d=4,o=5,b=200:c,e").
     mode: parallel
     max: 10
 
@@ -1129,7 +1134,7 @@ script:
                 value: stop
         name: mode
         default: play
-        description: Abspielen oder Stoppen
+        description: Radio abspielen oder stoppen.
       by:
         selector:
           select:
@@ -1142,12 +1147,12 @@ script:
                 value: url
         name: by
         default: station
-        description: Auswahlart (nur bei "abspielen")
+        description: 'Wie die Station gewaehlt wird: nach Name, Index oder URL (nur bei "abspielen").'
       value:
         selector:
           text:
         name: value
-        description: Stationsname / Index / Stream-URL
+        description: Stationsname, Index oder Stream-URL (je nach Auswahlart oben).
     mode: parallel
     max: 10
 
@@ -1186,7 +1191,7 @@ script:
           boolean:
         name: autoBrightness
         default: false
-        description: Automatische Helligkeit (Sensor) ein/aus
+        description: Automatische Helligkeit per Lichtsensor an/aus.
       brightness:
         selector:
           number:
@@ -1195,7 +1200,7 @@ script:
             step: 1
         name: brightness
         default: 120
-        description: Manuelle Helligkeit 0-255 (nur wenn Auto-Helligkeit aus)
+        description: Feste Helligkeit 0-255 (wirkt nur, wenn Auto-Helligkeit aus ist).
     mode: parallel
     max: 10
 

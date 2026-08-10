@@ -29,6 +29,6 @@ fields:
     selector:
       text:
     name: name
-    description: Name der Notification (leer = aktuelle verwerfen)
+    description: Name einer benannten Meldung. Leer = die aktuell gezeigte Meldung wegwischen.
 mode: parallel
 max: 10

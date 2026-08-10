@@ -48,12 +48,12 @@ fields:
       text:
     name: target
     required: true
-    description: 'App-Name, oder "next" / "previous"'
+    description: 'Name der App zum Anspringen - oder "next" / "previous" zum Blaettern.'
   fast:
     selector:
       boolean:
     name: fast
     default: true
-    description: Sofort umschalten (true) statt mit Übergangsanimation
+    description: An = sofort umschalten; aus = mit Uebergangsanimation.
 mode: parallel
 max: 10

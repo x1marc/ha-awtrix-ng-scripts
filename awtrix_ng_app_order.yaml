@@ -39,11 +39,13 @@ fields:
     selector:
       text:
     name: order
-    description: 'Reihenfolge, kommagetrennt (z. B. "Time, weather, Battery")'
+    description: >-
+      Reihenfolge der Apps als Namen mit Komma, z. B. "Time, weather, solar".
+      ACHTUNG: nur die hier gelisteten Apps bleiben sichtbar - Namen genau treffen.
   disabled:
     selector:
       text:
     name: disabled
-    description: 'Zu deaktivierende Apps, kommagetrennt (optional)'
+    description: Apps, die ausgeblendet werden sollen, mit Komma getrennt (optional).
 mode: parallel
 max: 10

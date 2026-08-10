@@ -48,7 +48,7 @@ fields:
             value: stop
     name: mode
     default: play
-    description: Abspielen oder Stoppen
+    description: Radio abspielen oder stoppen.
   by:
     selector:
       select:
@@ -61,11 +61,11 @@ fields:
             value: url
     name: by
     default: station
-    description: Auswahlart (nur bei "abspielen")
+    description: 'Wie die Station gewaehlt wird: nach Name, Index oder URL (nur bei "abspielen").'
   value:
     selector:
       text:
     name: value
-    description: Stationsname / Index / Stream-URL
+    description: Stationsname, Index oder Stream-URL (je nach Auswahlart oben).
 mode: parallel
 max: 10

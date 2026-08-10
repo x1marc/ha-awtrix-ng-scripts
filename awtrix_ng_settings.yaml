@@ -32,7 +32,7 @@ fields:
       boolean:
     name: autoBrightness
     default: false
-    description: Automatische Helligkeit (Sensor) ein/aus
+    description: Automatische Helligkeit per Lichtsensor an/aus.
   brightness:
     selector:
       number:
@@ -41,6 +41,6 @@ fields:
         step: 1
     name: brightness
     default: 120
-    description: Manuelle Helligkeit 0-255 (nur wenn Auto-Helligkeit aus)
+    description: Feste Helligkeit 0-255 (wirkt nur, wenn Auto-Helligkeit aus ist).
 mode: parallel
 max: 10

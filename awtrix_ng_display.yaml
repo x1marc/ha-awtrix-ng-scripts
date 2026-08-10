@@ -48,7 +48,7 @@ fields:
             value: "off"
     name: power
     default: keep
-    description: Display ein-/ausschalten
+    description: Display anschalten, ausschalten oder unveraendert lassen.
   overlay:
     selector:
       select:
@@ -71,6 +71,8 @@ fields:
             value: frost
     name: overlay
     default: keep
-    description: Wetter-Overlay
+    description: >-
+      Wetter-Effekt ueber das ganze Bild (rain/snow/drizzle/storm/thunder/frost)
+      oder "aus". "beibehalten" laesst das aktuelle Overlay unveraendert.
 mode: parallel
 max: 10

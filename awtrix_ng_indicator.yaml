@@ -51,7 +51,7 @@ fields:
     name: id
     default: 1
     required: true
-    description: Indicator 1 (oben), 2 (mitte) oder 3 (unten)
+    description: Welche der drei seitlichen Status-LEDs - 1 (oben), 2 (mitte) oder 3 (unten).
   mode:
     selector:
       select:
@@ -62,7 +62,7 @@ fields:
             value: clear
     name: mode
     default: set
-    description: Setzen oder ausschalten
+    description: Farbe setzen oder die LED ausschalten.
   color:
     selector:
       color_rgb:
@@ -71,7 +71,7 @@ fields:
       - 255
       - 0
       - 0
-    description: Farbe der LED
+    description: Farbe der LED (Farbwaehler).
   blink:
     selector:
       number:
@@ -80,7 +80,7 @@ fields:
         step: 50
     name: blink
     default: 0
-    description: Blinkintervall in ms (0 = aus)
+    description: Blinken - Intervall in Millisekunden (0 = kein Blinken).
   fade:
     selector:
       number:
@@ -89,6 +89,6 @@ fields:
         step: 50
     name: fade
     default: 0
-    description: Fade-Intervall in ms (0 = aus)
+    description: Sanftes Pulsieren - Intervall in Millisekunden (0 = aus).
 mode: parallel
 max: 10

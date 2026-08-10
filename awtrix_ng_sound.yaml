@@ -47,7 +47,7 @@ fields:
             value: stop
     name: mode
     default: play
-    description: Abspielen oder Stoppen
+    description: Sound abspielen oder stoppen.
   type:
     selector:
       select:
@@ -60,13 +60,13 @@ fields:
             value: builtin
     name: type
     default: name
-    description: Quelle des Sounds (nur bei "abspielen")
+    description: 'Quelle: gespeicherte Melodie (name), Inline-RTTTL (rtttl) oder eingebauter Ton (builtin).'
   value:
     selector:
       text:
     name: value
     description: >-
-      Dateiname / RTTTL-String / Builtin-Name (z. B. "beep", "r2d2" oder
-      "two:d=4,o=5,b=200:c,e")
+      Melodie-Dateiname, RTTTL-String oder Builtin-Name - passend zur Quelle oben
+      (z. B. "beep", "r2d2" oder "two:d=4,o=5,b=200:c,e").
 mode: parallel
 max: 10
