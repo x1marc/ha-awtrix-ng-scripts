@@ -1,6 +1,9 @@
 # HA AWTRIX NG Scripts
 
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-x1marc-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/x1marc)
+<p align="center">
+  <b>☕ Gefällt dir dieses Projekt? Dann spendier mir gern einen Kaffee!</b><br><br>
+  <a href="https://buymeacoffee.com/x1marc"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60"></a>
+</p>
 
 Fertige **[Home Assistant](https://www.home-assistant.io/)-Skripte** für die
 Pixel-Uhr **[AWTRIX NG](https://blueforcer.github.io/awtrix-ng/)**
